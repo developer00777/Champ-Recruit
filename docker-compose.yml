@@ -1,0 +1,47 @@
+# Local stack: `docker compose up` then open http://localhost:8787
+services:
+  app:
+    build: .
+    # Merge host secrets with container overrides (service names instead of localhost), then start wrangler.
+    command: >
+      sh -c "grep -v -E '^(UPSTASH_REDIS_REST_URL|MOCK_CHANNELS_URL)=' docker/host.dev.vars > /tmp/dev.env &&
+             cat docker/overrides.env >> /tmp/dev.env &&
+             pnpm db:migrate && (pnpm db:seed || true) &&
+             pnpm wrangler dev --ip 0.0.0.0 --port 8787 --persist-to .wrangler/state --env-file /tmp/dev.env"
+    ports: ["8787:8787"]
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./migrations:/app/migrations
+      - ./seed:/app/seed
+      - ./docker/overrides.env:/app/docker/overrides.env:ro
+      # Host secrets are mounted under another name: wrangler ignores --env-file when a .dev.vars file exists.
+      - ./.dev.vars:/app/docker/host.dev.vars:ro
+      - wrangler-state:/app/.wrangler
+    depends_on: [srh, mocks]
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "volatile-lru"]
+    volumes: [redis-data:/data]
+    ports: ["6379:6379"]
+
+  # Speaks Upstash's REST protocol in front of the local Redis, so the Worker uses
+  # the same @upstash/redis client in dev and production.
+  srh:
+    image: hiett/serverless-redis-http:latest
+    environment:
+      SRH_MODE: env
+      SRH_TOKEN: local
+      SRH_CONNECTION_STRING: redis://redis:6379
+    ports: ["8079:80"]
+    depends_on: [redis]
+
+  # Fake LinkedIn / Indeed / Naukri endpoints so the publishing flow can be built before approvals arrive.
+  mocks:
+    build: ./tools/mock-channels
+    ports: ["9000:9000"]
+
+volumes:
+  wrangler-state:
+  redis-data:

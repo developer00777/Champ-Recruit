@@ -1,0 +1,1460 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Champions Talent Hub (Copy)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: white sticky bar with four views plus a full job-description page; white hero with soft light-orange bands, then a 1180px working column. One accent: light orange. */
+:root{
+  --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#FFF6EE; --ink:#211C18; --muted:#6A6058; --line:#F0E3D6;
+  --navy:#FFF2E5; --navy-2:#FFE7CF; --navy-ink:#211C18; --navy-muted:#6A6058; --hero-accent:#F59A3C;
+  --gold:#A34E08; --gold-soft:#FFEAD5; --on-gold:#211C18; --gold-a:#F7A653; --gold-b:#F28C28;
+  color-scheme:light;
+  --ok:#1D7449; --ok-soft:#DCF0E4; --warn:#9A5600; --warn-soft:#FBEAD1; --bad:#AF342C; --bad-soft:#F8DDDA; --info:#2353A0; --info-soft:#DCE6F7;
+  --shadow:0 1px 2px rgba(13,27,46,.06),0 8px 24px rgba(13,27,46,.07);
+  --f-display:'Archivo',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-body:'Instrument Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+/* Deliberately single-theme: light orange and white in every viewer theme. */
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono);font-size:.82em;letter-spacing:.01em}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--navy);color:var(--navy-ink);border-bottom:1px solid rgba(221,184,102,.35)}
+.bar .wrap{display:flex;align-items:center;gap:20px;min-height:62px;flex-wrap:wrap;padding-block:6px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
+.brand b{font-family:var(--f-display);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;display:block;line-height:1}
+.brand small{display:block;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--navy-muted);margin-top:3px}
+.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;color:var(--navy-muted);padding:9px 13px;border-radius:8px;font-weight:600;font-size:.9rem;white-space:nowrap;display:flex;gap:7px;align-items:center}
+.tab:hover{color:var(--navy-ink);background:rgba(255,255,255,.06)}
+.tab[aria-selected="true"]{color:var(--navy-ink);background:rgba(255,255,255,.1);box-shadow:inset 0 -2px 0 var(--hero-accent)}
+.tab .count{background:var(--hero-accent);color:var(--on-gold);font-size:.7rem;border-radius:99px;padding:0 6px;font-weight:700}
+@media (max-width:720px){.tabs{margin-left:0;width:100%}.bar .wrap{gap:4px}}
+
+/* hero */
+.hero{background:var(--navy);color:var(--navy-ink);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,transparent 0 119px,rgba(255,255,255,.035) 119px 120px),
+  radial-gradient(55% 75% at 88% 0%,rgba(221,184,102,.24),transparent 70%),
+  radial-gradient(45% 65% at 0% 100%,rgba(120,58,170,.38),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1;padding-block:44px 28px;display:grid;gap:26px}
+.hero h1{font-size:clamp(2.1rem,5.2vw,3.9rem);font-weight:800;max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--hero-accent)}
+.hero .lede{color:var(--navy-muted);max-width:60ch;font-size:1.04rem}
+.search{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr auto;gap:8px;background:var(--surface);padding:8px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.25);color:var(--ink)}
+.search label{display:flex;flex-direction:column;gap:2px;padding:6px 10px;border-radius:8px;min-width:0}
+.search label:focus-within{background:var(--surface-2)}
+.search label span{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.search input,.search select{border:0;background:transparent;outline:none;padding:0;font-size:.95rem;min-width:0;width:100%}
+.search select option{background:var(--surface);color:var(--ink)}
+@media (max-width:900px){.search{grid-template-columns:1fr 1fr}.search label:first-child{grid-column:1/-1}.search .btn{grid-column:1/-1}}
+.scoreboard{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(221,184,102,.35);padding-top:18px;gap:12px}
+.scoreboard div{display:flex;flex-direction:column}
+.scoreboard b{font-family:var(--f-display);font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:700;color:var(--navy-ink);font-variant-numeric:tabular-nums;line-height:1}
+.scoreboard span{font-size:.78rem;color:var(--navy-muted);margin-top:6px}
+@media (max-width:600px){.scoreboard{grid-template-columns:1fr 1fr;row-gap:18px}}
+
+/* buttons, chips */
+.btn{border:1px solid transparent;border-radius:10px;padding:11px 18px;font-weight:700;font-size:.92rem;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;transition:transform .12s ease,background .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-a),var(--gold-b));color:var(--on-gold);box-shadow:0 6px 18px rgba(194,149,56,.28)}
+.btn-line{background:transparent;border-color:rgba(221,184,102,.55);color:var(--navy-ink)}
+.btn-line:hover{background:rgba(255,255,255,.07)}
+.btn-gold:hover{filter:brightness(1.05)}
+.btn-ink{background:var(--ink);color:var(--bg)}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-sm{padding:7px 12px;font-size:.82rem;border-radius:8px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 12px;font-size:.84rem;font-weight:600;display:inline-flex;gap:7px;align-items:center}
+.chip i{font-style:normal;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] i{color:inherit;opacity:.7}
+.hero .chip{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16);color:var(--navy-ink)}
+.hero .chip i{color:var(--navy-muted)}
+.hero .chip[aria-pressed="true"]{background:var(--hero-accent);color:var(--on-gold);border-color:var(--hero-accent)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:.74rem;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.tag.hot{background:var(--gold-soft);color:var(--gold)}
+.tag.inc{background:var(--ok-soft);color:var(--ok)}
+
+/* sections */
+section.block{padding-block:40px}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-head h2{font-size:clamp(1.45rem,2.6vw,2rem);font-weight:700}
+.sec-head p{max-width:60ch}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+.filters{position:sticky;top:calc(env(safe-area-inset-top,0px) + 78px);display:grid;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+@media (max-width:900px){.filters{position:static}}
+.filters fieldset{border:0;margin:0;padding:0;display:grid;gap:7px}
+.filters legend{margin-bottom:6px}
+.check{display:flex;align-items:center;gap:9px;font-size:.9rem;cursor:pointer}
+.check input{accent-color:var(--gold);width:16px;height:16px}
+.check em{font-style:normal;margin-left:auto;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+
+/* job list */
+.results-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.results-bar select{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;font-size:.85rem}
+.jobs{display:grid;gap:10px}
+.job{display:grid;grid-template-columns:1fr auto;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;transition:border-color .15s ease,box-shadow .15s ease}
+.job:hover{border-color:color-mix(in srgb,var(--gold) 45%,var(--line));box-shadow:var(--shadow)}
+.job-main{min-width:0;display:grid;gap:7px}
+.job-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.job h3{font-size:1.12rem;font-weight:700}
+.job h3 button{all:unset;cursor:pointer}
+.job h3 button:hover{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--muted);font-size:.86rem}
+.meta span{display:inline-flex;align-items:center;gap:5px}
+.meta svg{width:14px;height:14px;flex:none}
+.job .sum{color:var(--muted);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.job-side{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;gap:10px}
+.seats{text-align:right;line-height:1.1}
+.seats b{font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.seats span{display:block;font-size:.72rem;color:var(--muted)}
+.job-actions{display:flex;gap:6px}
+.save{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:36px;height:34px;display:grid;place-items:center;color:var(--muted)}
+.save[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.save svg{width:17px;height:17px}
+@media (max-width:560px){.job{grid-template-columns:1fr}.job-side{flex-direction:row;align-items:center}.seats{text-align:left}}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:30px;text-align:center;color:var(--muted)}
+
+/* shortlist tray */
+.tray{position:fixed;left:0;right:0;bottom:0;z-index:40;padding-bottom:env(safe-area-inset-bottom,0px);pointer-events:none}
+.tray .wrap{padding-block:12px}
+.tray-inner{pointer-events:auto;background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 12px 12px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 18px 50px rgba(0,0,0,.3);flex-wrap:wrap}
+.tray-inner p{flex:1;min-width:200px;font-size:.9rem}
+.tray-inner b{font-family:var(--f-display)}
+.tray .pill{display:inline-block;background:rgba(127,127,127,.25);border-radius:6px;padding:1px 7px;margin:2px 3px 0 0;font-size:.78rem}
+
+/* quiz + community + cards */
+.duo{display:grid;grid-template-columns:1.15fr 1fr;gap:18px}
+@media (max-width:900px){.duo{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:16px;align-content:start;min-width:0}
+.panel h3{font-size:1.3rem}
+.panel.dark{background:var(--navy);color:var(--navy-ink);border-color:var(--navy)}
+.panel.dark .muted{color:var(--navy-muted)}
+.q{display:grid;gap:8px}
+.q p{font-weight:600}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 13px;font-size:.87rem;font-weight:600;text-align:left}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}
+.match{display:grid;gap:8px}
+.match-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--surface-2)}
+.match-row b{flex:1;font-size:.92rem;min-width:0}
+.score{font-family:var(--f-mono);font-size:.8rem;color:var(--gold);font-weight:500}
+.field{display:grid;gap:5px;min-width:0}
+.field label,.field .lbl{font-size:.8rem;font-weight:600}
+.field input,.field select,.field textarea{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:10px 12px;font-size:.93rem;width:100%;min-width:0}
+.panel.dark .field input,.panel.dark .field select{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:var(--navy-ink)}
+.panel.dark .field select option{background:var(--navy);color:var(--navy-ink)}
+.panel.dark .chip{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);color:var(--navy-ink)}
+.panel.dark .chip[aria-pressed="true"]{background:var(--hero-accent);color:var(--on-gold);border-color:var(--hero-accent)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;line-height:1.45}
+.consent input{margin-top:3px;accent-color:var(--gold);width:16px;height:16px;flex:none}
+.note{font-size:.8rem;border-left:3px solid var(--gold);padding:6px 0 6px 12px}
+.panel.dark .note{color:var(--navy-muted)}
+
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:820px){.why{grid-template-columns:1fr}}
+.why div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:8px;align-content:start}
+.why b{font-family:var(--f-display);font-size:1.08rem}
+.why .muted{font-size:.9rem}
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:s;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.journey li{list-style:none;padding:18px 16px;border-right:1px solid var(--line);display:grid;gap:4px;align-content:start}
+.journey li:last-child{border-right:0}
+.journey li::before{counter-increment:s;content:"Stage " counter(s);font-family:var(--f-mono);font-size:.72rem;color:var(--gold)}
+.journey b{font-size:.95rem}
+.journey span{font-size:.82rem;color:var(--muted)}
+@media (max-width:820px){.journey{grid-template-columns:1fr}.journey li{border-right:0;border-bottom:1px solid var(--line)}.journey li:last-child{border-bottom:0}}
+ol.journey{margin:0;padding:0}
+
+/* drawer + modal */
+.scrim{position:fixed;inset:0;background:rgba(5,10,20,.55);z-index:70;display:flex;justify-content:flex-end}
+.drawer{background:var(--surface);width:min(620px,100%);height:100%;overflow-y:auto;padding:26px max(22px,env(safe-area-inset-right,0px)) calc(26px + env(safe-area-inset-bottom,0px)) 26px;padding-top:calc(26px + env(safe-area-inset-top,0px));display:grid;gap:20px;align-content:start;animation:slide .22s ease}
+@keyframes slide{from{transform:translateX(30px);opacity:.6}to{transform:none;opacity:1}}
+.drawer h2{font-size:1.7rem}
+.drawer ul{margin:0;padding-left:18px;display:grid;gap:5px;font-size:.93rem}
+.x{background:var(--surface-2);border:0;border-radius:8px;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.drawer-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.facts div{background:var(--surface);padding:10px 12px}
+.facts span{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.facts b{font-size:.9rem}
+@media (max-width:480px){.facts{grid-template-columns:1fr 1fr}}
+.scrim.center{justify-content:center;align-items:center;padding:16px}
+.modal{background:var(--surface);width:min(720px,100%);max-height:calc(100% - 8px);overflow-y:auto;border-radius:18px;display:grid;align-content:start;animation:pop .2s ease}
+@keyframes pop{from{transform:scale(.97);opacity:.5}to{transform:none;opacity:1}}
+.modal-head{padding:22px 24px 0;display:grid;gap:14px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.steps div{height:4px;border-radius:4px;background:var(--surface-2)}
+.steps div.on{background:var(--gold)}
+.modal-body{padding:20px 24px;display:grid;gap:14px}
+.modal-foot{padding:16px 24px 22px;display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);flex-wrap:wrap}
+.pick{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.pick:has(input:checked){border-color:var(--gold);background:var(--gold-soft)}
+.pick input{accent-color:var(--gold);width:16px;height:16px}
+.pick b{flex:1;font-size:.92rem;min-width:0}
+.drop{border:1.5px dashed var(--line);border-radius:12px;padding:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.drop input{font-size:.85rem;max-width:100%}
+.err{color:var(--bad);font-size:.82rem}
+.success{text-align:center;display:grid;gap:12px;justify-items:center;padding:20px 0}
+.success .ring{width:64px;height:64px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center}
+
+/* my applications */
+.apps{display:grid;gap:12px}
+.app{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px}
+.app-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.track{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.track div{display:grid;gap:6px;font-size:.75rem;color:var(--muted)}
+.track i{display:block;height:6px;border-radius:6px;background:var(--surface-2)}
+.track .done i{background:var(--ok)}
+.track .now i{background:var(--gold)}
+.track .now{color:var(--ink);font-weight:700}
+@media (max-width:520px){.track div span{font-size:.64rem}}
+
+/* status pills */
+.st{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-Applied{background:var(--info-soft);color:var(--info)}
+.st-Screening,.st-Assessment{background:var(--warn-soft);color:var(--warn)}
+.st-Interview,.st-Offer{background:var(--gold-soft);color:var(--gold)}
+.st-Hired{background:var(--ok-soft);color:var(--ok)}
+.st-Notselected{background:var(--surface-2);color:var(--muted)}
+
+/* recruiter */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+@media (max-width:980px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:4px}
+.kpi b{font-family:var(--f-display);font-size:1.9rem;font-variant-numeric:tabular-nums;line-height:1.05}
+.kpi span{font-size:.8rem;color:var(--muted)}
+.charts{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+@media (max-width:900px){.charts{grid-template-columns:1fr}}
+.bars{display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:110px 1fr 36px;gap:10px;align-items:center;font-size:.85rem}
+.bar-row .trk{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.bar-row .fill{height:100%;background:var(--navy-2);border-radius:4px;transition:width .4s ease}
+:root[data-theme="dark"] .bar-row .fill{background:var(--info)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bar-row .fill{background:var(--info)}}
+.bar-row .fill.g{background:var(--gold)}
+.bar-row b{text-align:right;font-variant-numeric:tabular-nums}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:8px 11px;font-size:.87rem;min-width:0}
+.toolbar input{flex:1;min-width:180px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:820px;font-size:.87rem}
+th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2);font-weight:700}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td select{border:1px solid var(--line);background:var(--surface);border-radius:7px;padding:4px 6px;font-size:.8rem}
+.who b{display:block}
+.who span{font-size:.78rem;color:var(--muted)}
+.yes{color:var(--ok);font-weight:700}
+.no{color:var(--muted)}
+.campaign{display:grid;grid-template-columns:1fr 1.1fr;gap:18px}
+@media (max-width:900px){.campaign{grid-template-columns:1fr}}
+.mail{border:1px solid var(--line);border-radius:12px;background:var(--bg);font-size:.88rem;overflow:hidden}
+.mail-h{padding:12px 14px;border-bottom:1px solid var(--line);display:grid;gap:2px;background:var(--surface)}
+.mail-b{padding:16px;display:grid;gap:10px}
+.mail-b a{color:var(--gold);font-weight:600}
+.mail-f{padding:10px 16px;border-top:1px solid var(--line);font-size:.75rem;color:var(--muted)}
+.big-out{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.big-out div{background:var(--surface-2);border-radius:10px;padding:12px}
+.big-out b{font-family:var(--f-display);font-size:1.5rem;display:block;font-variant-numeric:tabular-nums}
+.big-out span{font-size:.75rem;color:var(--muted)}
+@media (max-width:520px){.big-out{grid-template-columns:1fr}}
+.flag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--warn-soft);color:var(--warn)}
+
+/* blueprint */
+.cmp-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.cmp{min-width:760px}
+.cmp td:first-child{font-weight:600}
+.cmp th.ours,.cmp td.ours{background:var(--gold-soft)}
+.cmp th.ours{color:var(--gold)}
+.ck{color:var(--ok);font-weight:700}
+.dash{color:var(--muted)}
+.borrow{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:900px){.borrow{grid-template-columns:1fr}}
+.borrow div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:10px;align-content:start}
+.borrow ul{margin:0;padding-left:18px;font-size:.9rem;display:grid;gap:5px}
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.phases{grid-template-columns:1fr}}
+.phase{border-radius:14px;padding:20px;display:grid;gap:10px;align-content:start;border:1px solid var(--line);background:var(--surface)}
+.phase.now{background:var(--navy);color:var(--navy-ink);border-color:var(--navy)}
+.phase.now .muted{color:var(--navy-muted)}
+.phase ul{margin:0;padding-left:18px;font-size:.9rem;display:grid;gap:5px}
+.entities{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.entity{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--surface);font-size:.85rem}
+.entity b{font-family:var(--f-mono);font-size:.85rem;display:block;margin-bottom:4px;color:var(--gold)}
+
+footer{background:var(--navy);color:var(--navy-muted);margin-top:30px}
+footer .wrap{padding-block:34px calc(110px + env(safe-area-inset-bottom,0px));display:grid;gap:22px}
+.offices{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px;font-size:.82rem}
+.offices b{color:var(--navy-ink);display:block;font-size:.88rem}
+.disclaimer{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;font-size:.8rem}
+
+.skip{position:absolute;left:-999px;top:8px;z-index:100;background:var(--hero-accent);color:var(--on-gold);padding:8px 12px;border-radius:8px;font-weight:700}
+.skip:focus{left:max(16px,env(safe-area-inset-left,0px))}
+.fraud{background:var(--warn-soft);color:var(--ink);border-bottom:1px solid var(--line)}
+.fraud .wrap{padding-block:12px;display:flex;gap:12px;align-items:flex-start;font-size:.88rem}
+.fraud svg{flex:none;color:var(--warn);margin-top:2px}
+.fraud b{color:var(--warn)}
+.tip{font-size:.82rem;color:var(--navy-muted)}
+.tip code{font-family:var(--f-mono);background:rgba(255,255,255,.08);padding:1px 6px;border-radius:5px;color:var(--navy-ink)}
+.active-f{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.active-f button{border:1px solid var(--gold);background:var(--gold-soft);color:var(--gold);border-radius:99px;padding:4px 10px;font-size:.8rem;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.cvm{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:900px){.cvm{grid-template-columns:1fr}}
+.cvm textarea{min-height:170px;resize:vertical}
+.hit{display:inline-block;font-size:.72rem;background:var(--ok-soft);color:var(--ok);border-radius:5px;padding:1px 6px;margin:2px 3px 0 0;font-weight:600}
+.hire3{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+@media (max-width:820px){.hire3{grid-template-columns:1fr}}
+.faq details{border-bottom:1px solid var(--line);padding:12px 0}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--gold);font-weight:700}
+.faq details[open] summary::after{content:"–"}
+.faq details p{margin-top:8px;color:var(--muted);font-size:.9rem}
+.d90{display:grid;border-left:2px solid var(--gold-soft);padding-left:14px;margin-left:5px}
+.d90 div{padding:6px 0;font-size:.9rem;position:relative}
+.d90 div::before{content:"";position:absolute;left:-21px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.sla{display:inline-block;margin-left:6px;font-size:.7rem;font-weight:700;color:var(--bad);background:var(--bad-soft);border-radius:5px;padding:1px 6px}
+.req-row{display:grid;grid-template-columns:minmax(0,1.4fr) 2fr auto;gap:12px;align-items:center;font-size:.86rem}
+.req-trk{height:12px;border-radius:4px;background:var(--surface-2);display:flex;overflow:hidden}
+.req-trk i{display:block;height:100%}
+.req-trk .h{background:var(--ok)}.req-trk .p{background:var(--gold)}
+.legend{display:flex;gap:14px;font-size:.78rem;color:var(--muted);flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--c);border:1px solid var(--line)}
+.review{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:820px){.review{grid-template-columns:1fr}}
+.review ul{margin:0;padding:0;list-style:none;display:grid;gap:12px;font-size:.9rem}
+.review li{display:grid;gap:2px}
+.review li span{color:var(--muted);font-size:.84rem}
+.st-Withdrawn{background:var(--surface-2);color:var(--muted)}
+/* royal type overrides */
+h3,h4{font-family:var(--f-body);letter-spacing:-.005em;font-weight:700}
+.hero h1{font-weight:600;font-size:clamp(3rem,7.4vw,5.6rem);letter-spacing:-.01em;max-width:none;line-height:1}
+.hero h1 em{font-style:italic}
+.hero-sub{font-family:var(--f-display);font-style:italic;font-size:clamp(1.35rem,2.6vw,1.9rem);color:var(--navy-ink);line-height:1.2}
+.sec-head h2{font-size:clamp(1.8rem,3.4vw,2.7rem);font-weight:600}
+.drawer h2{font-family:var(--f-display);font-weight:600;font-size:2.1rem}
+.brand b{font-weight:700;font-size:1.25rem;letter-spacing:.01em}
+.seats b,.kpi b,.big-out b{font-family:var(--f-body)}
+.scoreboard b{font-weight:600;font-variant-numeric:lining-nums tabular-nums;font-size:clamp(2.2rem,4.4vw,3rem)}
+#openings,#community,#areas{scroll-margin-top:96px}
+/* career areas, stages, pillars, reach */
+.areas{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:980px){.areas{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.areas{grid-template-columns:1fr}}
+.area{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:10px;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.area:hover,.area:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--gold)}
+.emblem{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(140deg,var(--navy),var(--navy-2));color:var(--hero-accent);box-shadow:inset 0 0 0 1px rgba(221,184,102,.35)}
+.emblem svg{width:22px;height:22px}
+.area b{font-family:var(--f-display);font-size:1.45rem;font-weight:600;line-height:1.1}
+.area p{font-size:.88rem;color:var(--muted)}
+.area .go{font-size:.84rem;font-weight:700;color:var(--gold)}
+.stages{display:flex;flex-wrap:wrap;gap:12px}
+.stage{all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 200px;border-radius:16px;padding:22px;background:linear-gradient(160deg,var(--navy-2),var(--navy));color:var(--navy-ink);display:grid;gap:8px;align-content:start;position:relative;overflow:hidden;border:1px solid rgba(221,184,102,.18);transition:border-color .18s ease,transform .18s ease}
+.stage::after{content:"";position:absolute;right:-40px;bottom:-40px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(221,184,102,.28),transparent 70%);pointer-events:none}
+.stage:hover,.stage:focus-visible{border-color:var(--hero-accent);transform:translateY(-3px)}
+.stage span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--hero-accent);font-weight:700}
+.stage b{font-family:var(--f-display);font-size:1.6rem;font-weight:600;line-height:1.1}
+.stage p{font-size:.86rem;color:var(--navy-muted)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+@media (max-width:820px){.pillars{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.pillars{grid-template-columns:1fr}}
+.pillars div{background:var(--surface);padding:24px;display:grid;gap:6px;align-content:start}
+.pillars em{font-style:italic;font-family:var(--f-display);font-size:2rem;color:var(--gold);font-weight:600;line-height:1}
+.pillars p{font-size:.9rem;color:var(--muted)}
+.reach{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:var(--navy-ink);border-radius:22px;padding:36px clamp(20px,4vw,40px);display:grid;grid-template-columns:1.3fr repeat(3,1fr);gap:24px;align-items:end;position:relative;overflow:hidden;border:1px solid rgba(221,184,102,.3)}
+.reach::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 90% at 100% 0%,rgba(221,184,102,.2),transparent 70%);pointer-events:none}
+.reach>*{position:relative}
+@media (max-width:820px){.reach{grid-template-columns:repeat(3,1fr)}.reach>div:first-child{grid-column:1/-1}}
+.reach b{font-family:var(--f-display);font-size:clamp(2.8rem,6vw,4.2rem);font-weight:600;color:var(--hero-accent);line-height:1;font-variant-numeric:lining-nums;display:block}
+.reach span{display:block;color:var(--navy-muted);font-size:.85rem;margin-top:6px}
+.connect{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:700px){.connect{grid-template-columns:1fr}}
+/* yellow & white, simple */
+.bar{background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line)}
+body::before{background:var(--surface)}
+.brand small{color:var(--muted)}
+.tab{color:var(--muted)}
+.tab:hover{color:var(--ink);background:var(--surface-2)}
+.tab[aria-selected="true"]{color:var(--ink);background:transparent;box-shadow:inset 0 -3px 0 var(--hero-accent);border-radius:0}
+.hero{background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line)}
+.hero::after{display:none}
+.hero .wrap{padding-block:52px 30px}
+.hero .eyebrow{color:var(--muted)!important}
+.hero h1{font-weight:800;font-size:clamp(2.6rem,6.4vw,4.6rem);letter-spacing:-.03em}
+.hero h1 em{font-style:normal;color:var(--ink);background:linear-gradient(transparent 80%,var(--hero-accent) 80% 96%,transparent 96%)}
+.hero-sub{font-family:var(--f-body);font-style:normal;font-weight:600;font-size:clamp(1.1rem,2vw,1.4rem);color:var(--ink)}
+.hero .lede{color:var(--muted)}
+.hero .chip{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.hero .chip i{color:var(--muted)}
+.hero .chip[aria-pressed="true"]{background:var(--hero-accent);border-color:var(--hero-accent);color:var(--on-gold)}
+.hero .chip[aria-pressed="true"] i{color:var(--on-gold)}
+.search{border:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.06)}
+.scoreboard{border-top-color:var(--line)}
+.scoreboard b{color:var(--ink);font-weight:800;font-size:clamp(1.9rem,3.6vw,2.5rem)}
+.scoreboard span{color:var(--muted)}
+.tip{color:var(--muted)}
+.tip code{background:var(--surface-2);color:var(--ink)}
+.btn-gold{background:var(--hero-accent);box-shadow:none}
+.btn-gold:hover{filter:brightness(.96)}
+.btn-line{border-color:var(--ink);color:var(--ink)}
+.btn-line:hover{background:var(--surface-2)}
+.sec-head h2{font-weight:800;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.02em}
+.area b{font-family:var(--f-body);font-size:1.12rem;font-weight:700}
+.area:hover,.area:focus-visible{border-color:var(--ink)}
+.area .go{color:var(--ink);text-decoration:underline;text-decoration-color:var(--hero-accent);text-decoration-thickness:3px;text-underline-offset:4px}
+.emblem{background:var(--hero-accent);color:var(--on-gold);box-shadow:none}
+.stage{background:var(--navy);border-color:transparent}
+.stage::after{background:radial-gradient(circle,rgba(245,154,60,.28),transparent 70%)}
+/* light-orange bands: dark text, deep-orange labels */
+.stage{border:1px solid var(--line)}
+.stage span,.reach b{color:var(--gold)}
+.reach .eyebrow,.panel.dark .eyebrow,.phase.now .eyebrow{color:var(--gold)!important}
+.panel.dark{border-color:var(--line)}
+.panel.dark .field input,.panel.dark .field select{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.panel.dark .field select option{background:var(--surface);color:var(--ink)}
+.panel.dark .chip{background:var(--surface);border-color:var(--line);color:var(--ink)}
+.panel.dark .chip[aria-pressed="true"]{background:var(--hero-accent);border-color:var(--hero-accent);color:var(--on-gold)}
+.phase.now{border-color:var(--line)}
+footer{border-top:3px solid var(--hero-accent)}
+.disclaimer{border-top-color:var(--line)}
+.side-card{border-top-color:var(--hero-accent)}
+/* EY-style search: one keyword/location box, more options on demand */
+.search.ey{grid-template-columns:minmax(0,1fr) auto auto;align-items:center}
+.search .more{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;border-top:1px solid var(--line);padding-top:8px;align-items:center}
+@media (max-width:900px){.search.ey .btn{grid-column:auto}}
+@media (max-width:700px){.search.ey{grid-template-columns:1fr 1fr}.search.ey .kw{grid-column:1/-1}.search .more{grid-template-columns:1fr}}
+.stage b{font-family:var(--f-body);font-size:1.2rem;font-weight:700}
+.pillars em{font-style:normal;font-family:var(--f-body);font-weight:800;font-size:1.45rem;color:var(--ink);box-shadow:inset 0 -.22em 0 var(--hero-accent);justify-self:start}
+.reach{background:var(--navy);border-color:transparent}
+.reach::before{background:linear-gradient(90deg,var(--hero-accent) 0 6px,transparent 6px)}
+.reach b{font-family:var(--f-body);font-weight:800}
+.borrow>div:last-child:nth-child(odd){grid-column:1/-1}
+/* job description page */
+.jp{padding-block:24px 48px;display:grid;gap:24px}
+.back{all:unset;cursor:pointer;font-weight:600;font-size:.9rem;color:var(--muted);justify-self:start}
+.back:hover,.back:focus-visible{color:var(--ink);text-decoration:underline;text-decoration-color:var(--hero-accent);text-decoration-thickness:3px}
+.jp-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:36px;align-items:start}
+@media (max-width:900px){.jp-grid{grid-template-columns:1fr}}
+.jp-head{display:grid;gap:16px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.jp-head h1{font-size:clamp(2rem,4.4vw,3rem);font-weight:800;letter-spacing:-.025em}
+.jp-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px 24px;margin:0}
+.jp-meta dt{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.jp-meta dd{margin:3px 0 0;font-weight:600}
+.apply-row{display:flex;gap:8px;flex-wrap:wrap}
+.jd{display:grid;gap:12px;padding-top:24px;max-width:72ch}
+.jd h2{font-family:var(--f-body);font-size:1.2rem;font-weight:800;margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.jd h2::before{content:"";width:18px;height:4px;background:var(--hero-accent);border-radius:2px}
+.jd ul{margin:0;padding-left:20px;display:grid;gap:7px}
+.jd-lead{font-size:1.12rem;line-height:1.5}
+.jd-note{font-size:.86rem;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:12px}
+.jd-cta{background:var(--surface-2);border-radius:14px;padding:22px;display:grid;gap:10px;margin-top:6px}
+.jp-side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px);display:grid;gap:14px}
+@media (max-width:900px){.jp-side{position:static}}
+.side-card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--hero-accent);border-radius:14px;padding:18px;display:grid;gap:10px}
+.side-card .btn{width:100%}
+.similar{display:grid;gap:14px;border-top:1px solid var(--line);padding-top:26px}
+.similar h2{font-size:1.5rem;font-weight:800}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:10px;z-index:90;font-weight:600;font-size:.9rem;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+.view{animation:fade .25s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<a class="skip" href="#openings">Skip to job results</a>
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#careers" aria-label="Champions Group careers home">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="var(--hero-accent)"/><path d="M10 9h14v4a7 7 0 0 1-14 0V9Z" fill="var(--navy)"/><path d="M10 11H7a3 3 0 0 0 3 4M24 11h3a3 3 0 0 1-3 4" stroke="var(--navy)" stroke-width="1.8" fill="none"/><rect x="15.2" y="19.5" width="3.6" height="3.5" fill="var(--navy)"/><rect x="11.5" y="23" width="11" height="2.6" rx="1" fill="var(--navy)"/></svg>
+      <span><b>Champions Group</b><small>Talent Hub</small></span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Portal views">
+      <button class="tab" role="tab" data-view="careers">Find roles</button>
+      <button class="tab" role="tab" data-view="applications">My applications <span class="count" id="myCount">2</span></button>
+      <button class="tab" role="tab" data-view="recruiter">Recruiter console</button>
+      <button class="tab" role="tab" data-view="blueprint">Blueprint</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ========== CAREERS ========== -->
+<div class="view" id="v-careers">
+  <section class="hero">
+    <div class="wrap">
+      <div style="display:grid;gap:14px">
+        <span class="eyebrow" style="color:var(--hero-accent)">Careers at Champions Group</span>
+        <h1>Learn. Earn. <em>Lead.</em></h1>
+        <p class="hero-sub">Build a career that keeps rising, with Champions Group.</p>
+        <p class="lede">Join a global group where ambition is rewarded and learning never stops. Your next role could be in any of our 20 businesses. Apply once, track every step, and be first to hear when your kind of role opens.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"><button class="btn btn-gold" type="button" data-scroll="openings">Search open roles</button><button class="btn btn-line" type="button" data-scroll="community">Join our talent community</button></div>
+      </div>
+      <form class="search ey" id="searchForm" role="search">
+        <label for="q" class="kw"><span>Search by keyword and/or location</span><input id="q" placeholder="e.g. lead generation Bengaluru, or CG-2026-1103" autocomplete="off"></label>
+        <button class="btn btn-ghost" type="button" id="moreOpt" aria-expanded="false" aria-controls="moreBox">More options</button>
+        <button class="btn btn-gold" type="submit">Search</button>
+        <div class="more" id="moreBox" hidden>
+          <label for="fDept"><span>Department</span><select id="fDept"></select></label>
+          <label for="fLoc"><span>Location</span><select id="fLoc"></select></label>
+          <label for="fShift"><span>Shift</span><select id="fShift"></select></label>
+          <button class="btn btn-ghost btn-sm" type="button" id="clearS">Clear</button>
+        </div>
+      </form>
+      <p class="tip">Tip: put a phrase in quotes for an exact match, like <code>"lead generation"</code>. Short forms work too: <code>BD</code>, <code>KAM</code>, <code>CRO</code>, <code>TA</code>.</p>
+      <div class="chips" id="arenaChips" aria-label="Quick filter by department"></div>
+      <div class="scoreboard">
+        <div><b id="sbRoles">0</b><span>Open roles</span></div>
+        <div><b id="sbSeats">0</b><span>Positions to fill</span></div>
+        <div><b id="sbEnt">0</b><span>Group companies hiring</span></div>
+        <div><b id="sbLoc">0</b><span>Hiring locations</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="fraud" role="note"><div class="wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17v.01"/></svg><p><b>Recruitment fraud alert.</b> Champions Group never charges a fee for applications, interviews, training or offers, and never asks for payment during hiring. Every genuine role is listed here with a requisition ID starting CG-.</p></div></div>
+
+  <section class="block wrap" id="areas">
+    <div class="sec-head"><div><span class="eyebrow">Career areas</span><h2 style="margin-top:6px">Whatever you want to win at, there's a seat for you.</h2></div><p class="muted">Pick an area to see its open roles. Lead generation and sales have the most seats open right now.</p></div>
+    <div class="areas" id="areaGrid"></div>
+  </section>
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Career stage</span><h2 style="margin-top:6px">Wherever you are in your career, start here.</h2></div></div>
+    <div class="stages" id="stageGrid"></div>
+  </section>
+
+  <section class="block wrap" id="openings">
+    <div class="layout">
+      <aside class="filters" aria-label="Refine results">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>Refine <span class="muted num" id="fCount" style="font-weight:500"></span></b><button class="btn btn-ghost btn-sm" id="clearF" type="button">Clear all</button></div>
+        <fieldset id="fsMode"><legend class="eyebrow">Work mode</legend></fieldset>
+        <fieldset id="fsExp"><legend class="eyebrow">Experience</legend></fieldset>
+        <fieldset id="fsEnt"><legend class="eyebrow">Company</legend></fieldset>
+        <fieldset><legend class="eyebrow">Other</legend>
+          <label class="check"><input type="checkbox" id="fInc"> Incentive-eligible roles</label>
+          <label class="check"><input type="checkbox" id="fHot"> Bulk hiring (5+ seats)</label>
+          <label class="check"><input type="checkbox" id="fSaved"> Saved roles only</label>
+        </fieldset>
+      </aside>
+      <div style="min-width:0">
+        <div class="results-bar">
+          <p><b class="num" id="resCount">0</b> <span class="muted">roles match</span></p>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" type="button" data-alert>Alert me about these roles</button>
+            <label class="muted" style="font-size:.85rem;display:flex;gap:8px;align-items:center">Sort
+              <select id="sort"><option value="rel">Best match</option><option value="new">Newest first</option><option value="seats">Most positions</option><option value="az">Title A–Z</option></select>
+            </label>
+          </div>
+        </div>
+        <div class="active-f" id="activeF" hidden></div>
+        <div class="jobs" id="jobList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0" id="cvmatch">
+    <div class="panel">
+      <div class="sec-head" style="margin:0"><div><span class="eyebrow">Match my CV</span><h3 style="margin-top:6px">Paste your CV. See the roles it fits.</h3></div><button class="btn btn-ghost btn-sm" type="button" id="cvSample">Try a sample CV</button></div>
+      <div class="cvm">
+        <div class="field"><label for="cvText">CV text or LinkedIn summary</label><textarea id="cvText" placeholder="Paste your CV here, or upload a .txt file below. In this demo nothing leaves your browser."></textarea>
+          <input type="file" id="cvFile" accept=".txt,text/plain" aria-label="Upload CV as a text file" style="font-size:.84rem;max-width:100%"></div>
+        <div class="match" id="cvOut"><p class="muted" style="font-size:.88rem">Matches appear here with the skills we recognised, so candidates can see why a role fits.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="duo">
+      <div class="panel" id="quiz">
+        <div><span class="eyebrow">Not sure where you fit?</span><h3 style="margin-top:6px">Find your arena in 30 seconds</h3></div>
+        <div class="q"><p>What energises you most?</p><div class="opts" data-q="0">
+          <button type="button" class="opt" data-v="hunt">Closing a deal</button>
+          <button type="button" class="opt" data-v="people">Helping people grow</button>
+          <button type="button" class="opt" data-v="data">Finding the pattern in data</button>
+          <button type="button" class="opt" data-v="build">Building systems</button></div></div>
+        <div class="q"><p>How much experience do you have?</p><div class="opts" data-q="1">
+          <button type="button" class="opt" data-v="0">Fresher – 2 yrs</button>
+          <button type="button" class="opt" data-v="1">2 – 5 yrs</button>
+          <button type="button" class="opt" data-v="2">5 – 10 yrs</button>
+          <button type="button" class="opt" data-v="3">10+ yrs</button></div></div>
+        <div class="q"><p>Are you open to a US or UK night shift?</p><div class="opts" data-q="2">
+          <button type="button" class="opt" data-v="y">Yes</button>
+          <button type="button" class="opt" data-v="n">Day shift only</button></div></div>
+        <div class="match" id="matchOut"><p class="muted" style="font-size:.88rem">Answer the three questions to see your best-fit roles.</p></div>
+      </div>
+
+      <form class="panel dark" id="community" novalidate>
+        <div><span class="eyebrow" style="color:var(--hero-accent)">Talent community</span><h3 style="margin-top:6px">Not ready to apply? Stay on our bench.</h3>
+          <p class="muted" style="margin-top:8px;font-size:.92rem">Tell us what you're interested in. We'll email you only when a matching role opens.</p></div>
+        <div class="grid2">
+          <div class="field"><label for="cName">Full name</label><input id="cName" autocomplete="name" placeholder="Your name"></div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        </div>
+        <div class="field"><span class="lbl">Roles you'd like to hear about</span><div class="chips" id="cInterests"></div></div>
+        <div class="field"><label for="cFreq">How often</label><select id="cFreq"><option>Only when a matching role opens</option><option>Weekly digest</option><option>Monthly digest</option></select></div>
+        <label class="consent"><input type="checkbox" id="cConsent"> I agree to receive recruitment emails from Champions Group about roles matching my interests. I can unsubscribe at any time from any email.</label>
+        <p class="err" id="cErr" hidden></p>
+        <button class="btn btn-gold" type="submit">Join the talent community</button>
+        <p class="note">Separate from applying: joining this list is optional and never required to apply for a role.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Life at Champions</span><h2 style="margin-top:6px">Finish every year better than you started it.</h2></div><p class="muted">Six things every Champion can count on. <span class="flag">Draft copy · confirm benefit details with HR</span></p></div>
+    <div class="pillars">
+      <div><em>Earn</em><b>Paid for what you deliver</b><p>Incentive plans on sales and lead-generation roles, with payouts tied to clear, published targets.</p></div>
+      <div><em>Learn</em><b>Trained from week one</b><p>Structured onboarding and ongoing sales training from our in-house Learning &amp; Development team.</p></div>
+      <div><em>Lead</em><b>Leadership comes early</b><p>Strong performers lead pods and floors early, and open leaderboards let results speak first.</p></div>
+      <div><em>Move</em><b>Twenty businesses, one career</b><p>Grow across data, marketing, hospitality, real estate and more without leaving the group.</p></div>
+      <div><em>Belong</em><b>A team that celebrates</b><p>Team events, recognition and leadership retreats that bring every function together.</p></div>
+      <div><em>Give</em><b>Work that gives back</b><p>Through the Champions Education Trust, the group supports education in the communities around it.</p></div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="reach">
+      <div><span class="eyebrow" style="color:var(--hero-accent)">A global group</span><h2 style="margin-top:8px;font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600">One group. Many arenas.</h2><p style="color:var(--navy-muted);margin-top:8px;font-size:.9rem">Winner of the Dun &amp; Bradstreet Singapore Business Eminence Award.</p></div>
+      <div><b>20</b><span>Businesses in the group</span></div>
+      <div><b>10</b><span>Sectors, from data to hospitality</span></div>
+      <div><b>7</b><span>Countries with offices</span></div>
+    </div>
+    <p class="muted" style="font-size:.76rem;margin-top:8px">Counts taken from the businesses and office locations listed on championsgroup.com, October 2026.</p>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">What happens after you apply</span><h2 style="margin-top:6px">A hiring process you can see</h2></div><p class="muted">Every application shows its live stage in <b>My applications</b>. No more wondering if anyone read your CV.</p></div>
+    <ol class="journey">
+      <li><b>Applied</b><span>Instant confirmation with your application ID.</span></li>
+      <li><b>Screening</b><span>A recruiter reviews your profile within 3 working days.</span></li>
+      <li><b>Assessment</b><span>Role-specific task: a mock cold call, a data sheet or a case.</span></li>
+      <li><b>Interview</b><span>Hiring-manager round, then a final round for senior roles.</span></li>
+      <li><b>Offer</b><span>Offer of appointment with full compensation annexure.</span></li>
+    </ol>
+    <div class="hire3">
+      <div class="panel"><span class="eyebrow">How we use AI in hiring</span><p style="font-size:.92rem">Tools may help sort applications and suggest role matches, like the CV match above. A recruiter reviews every application and makes every shortlisting and hiring decision. You can ask for a human-only review at any stage.</p>
+        <span class="eyebrow" style="margin-top:6px">Pro tips by role family</span>
+        <ul style="margin:0;padding-left:18px;font-size:.9rem;display:grid;gap:5px"><li><b>Sales &amp; Lead Gen:</b> bring numbers: target, achievement %, meetings booked.</li><li><b>HR, TA &amp; L&amp;D:</b> describe one process you improved and what changed.</li><li><b>IT &amp; Data:</b> describe one problem you solved end to end, with the result.</li></ul></div>
+      <div class="panel faq"><span class="eyebrow">Frequently asked</span>
+        <details><summary>Can I apply for more than one role?</summary><p>Yes. Save the roles you like and apply to all of them with one profile. Each role is reviewed separately.</p></details>
+        <details><summary>How long until I hear back?</summary><p>A recruiter reviews new applications within 3 working days. Your stage updates in My applications.</p></details>
+        <details><summary>Will you email me about other jobs?</summary><p>Only if you opt in or create a job alert. Applying alone never signs you up. Every email has an unsubscribe link.</p></details>
+        <details><summary>How long do you keep my data?</summary><p>As long as needed to process your application, and for a fixed retention period afterwards if you opt in to future roles. You can ask us to delete your profile at any time.</p></details>
+        <details><summary>Someone asked me to pay for a job. Is it genuine?</summary><p>No. We never charge candidates. Do not pay, and report it to the recruitment team.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Stay in touch</span><h2 style="margin-top:6px">Your next move might not be open yet.</h2></div></div>
+    <div class="connect">
+      <button type="button" class="area" data-alert><span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4l2-2ZM10 21h4"/></svg></span><b>Get job alerts</b><p>Save a search and we'll email you the moment a matching role opens.</p><span class="go">Create an alert →</span></button>
+      <button type="button" class="area" data-scroll="community"><span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 4a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.6"/></svg></span><b>Join the talent community</b><p>Tell us your interests once. We'll reach out when the right role comes up.</p><span class="go">Join now →</span></button>
+    </div>
+  </section>
+</div>
+
+<!-- ========== MY APPLICATIONS ========== -->
+<div class="view" id="v-applications" hidden>
+  <section class="block wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Candidate profile · example</span><h2 style="margin-top:6px" id="meName">Priya Raman</h2><p class="muted" style="margin-top:4px" id="meLine">priya.r@example.com · Bengaluru · 1.5 yrs experience</p></div>
+      <button class="btn btn-ink" type="button" data-go="careers">Browse more roles</button>
+    </div>
+    <div class="apps" id="appList"></div>
+    <div id="alertList"></div>
+    <div class="panel" style="margin-top:18px">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+        <div><b>Communication preferences</b><p class="muted" style="font-size:.88rem">Application updates are always sent. Recruitment campaign emails are optional.</p></div>
+        <label class="consent" style="align-items:center"><input type="checkbox" id="meConsent" checked> Send me new roles in Lead Generation &amp; Sales</label>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ========== RECRUITER ========== -->
+<div class="view" id="v-recruiter" hidden>
+  <section class="block wrap" style="display:grid;gap:22px">
+    <div class="sec-head" style="margin:0">
+      <div><span class="eyebrow">Recruiter console · sample data</span><h2 style="margin-top:6px">Hiring at a glance</h2></div>
+      <p class="muted">All candidates shown are fictional examples. Applications submitted on the Careers tab appear here instantly.</p>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="charts">
+      <div class="panel"><div style="display:flex;justify-content:space-between;align-items:baseline"><b>Pipeline funnel</b><span class="muted" style="font-size:.8rem">candidates who reached each stage</span></div><div class="bars" id="funnel"></div></div>
+      <div class="panel"><div style="display:flex;justify-content:space-between;align-items:baseline"><b>Where applicants come from</b><span class="muted" style="font-size:.8rem">by source</span></div><div class="bars" id="sources"></div></div>
+    </div>
+    <div class="panel"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline"><b>Requisition tracker · seats filled vs open</b><div class="legend"><span style="--c:var(--ok)">Hired</span><span style="--c:var(--gold)">Offer out</span><span style="--c:var(--surface-2)">Still open</span></div></div><div class="bars" id="reqs"></div></div>
+
+    <div style="display:grid;gap:12px">
+      <div class="toolbar">
+        <input id="rq" placeholder="Search name, skill, city" aria-label="Search candidates">
+        <select id="rRole" aria-label="Filter by role"></select>
+        <select id="rStatus" aria-label="Filter by status"></select>
+        <select id="rConsent" aria-label="Filter by consent"><option value="">Any consent</option><option value="1">Opted in to campaigns</option><option value="0">Not opted in</option></select>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Candidate</th><th>Applied for</th><th>Exp</th><th>Source</th><th>Applied</th><th>Campaign opt-in</th><th>Status</th></tr></thead>
+        <tbody id="rBody"></tbody>
+      </table></div>
+      <p class="muted" style="font-size:.82rem" id="rFoot"></p>
+    </div>
+
+    <div class="panel">
+      <div><span class="eyebrow">Re-engage the bench</span><h3 style="margin-top:6px">Need 15 more Lead Generation Executives? Start with people who already applied.</h3></div>
+      <div class="campaign">
+        <div style="display:grid;gap:12px;align-content:start">
+          <div class="field"><label for="cmpDept">Department of the new opening</label><select id="cmpDept"></select></div>
+          <div class="field"><label for="cmpRole">Role to announce</label><select id="cmpRole"></select></div>
+          <label class="consent"><input type="checkbox" id="cmpSilver" checked> Include past applicants marked "Not selected" (good fit, no seat at the time)</label>
+          <div class="big-out" id="cmpOut"></div>
+          <p class="note muted">Only candidates who opted in to recruitment emails are included. Everyone else is excluded automatically, even if they applied for this department.</p>
+          <button class="btn btn-gold" type="button" id="cmpSend">Send campaign (demo)</button>
+        </div>
+        <div class="mail" aria-label="Email preview">
+          <div class="mail-h"><span class="muted" style="font-size:.78rem">From: Champions Group Recruitment</span><b id="mailSub">New openings</b></div>
+          <div class="mail-b" id="mailBody"></div>
+          <div class="mail-f">You're receiving this because you opted in to recruitment updates from Champions Group. <u>Unsubscribe</u> · <u>Update preferences</u></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:start">
+        <div><span class="eyebrow">Talent pipeline maths</span><h3 style="margin-top:6px">What a reusable pool is worth</h3></div>
+        <span class="flag">Illustrative inputs — replace with actuals</span>
+      </div>
+      <div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+        <div class="field"><label for="m1">Seats to fill later</label><input id="m1" type="number" value="15" min="0"></div>
+        <div class="field"><label for="m2">Opted-in past applicants (same dept)</label><input id="m2" type="number" value="400" min="0"></div>
+        <div class="field"><label for="m3">Re-apply rate %</label><input id="m3" type="number" value="15" min="0" max="100"></div>
+        <div class="field"><label for="m4">Re-applicant → hire %</label><input id="m4" type="number" value="20" min="0" max="100"></div>
+        <div class="field"><label for="m5">Sourcing cost per hire (₹)</label><input id="m5" type="number" value="6000" min="0"></div>
+      </div>
+      <div class="big-out" id="mathOut"></div>
+      <p class="mono muted" id="mathLine"></p>
+    </div>
+  </section>
+</div>
+
+<!-- ========== BLUEPRINT ========== -->
+<div class="view" id="v-blueprint" hidden>
+  <section class="block wrap" style="display:grid;gap:36px">
+    <div class="sec-head" style="margin:0">
+      <div><span class="eyebrow">For the app development team</span><h2 style="margin-top:6px">Champions Talent Hub · product blueprint</h2></div>
+      <p class="muted">The working demo on the other tabs, explained: what it does, where each idea comes from, and what to build first.</p>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:12px">From careers page to talent system</h3>
+      <div class="cmp-wrap"><table class="cmp">
+        <thead><tr><th>Capability</th><th>Basic careers page</th><th>Recruitment portal (original proposal)</th><th class="ours">Champions Talent Hub (this demo)</th></tr></thead>
+        <tbody id="cmpBody"></tbody>
+      </table></div>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:12px">Patterns borrowed from the reference portals</h3>
+      <div class="borrow">
+        <div><span class="eyebrow">Workday-hosted career sites</span><b>Returning-candidate profile</b><ul><li>Sign in once, reuse the profile for every application</li><li>Saved roles and job alerts</li><li>Talent community link next to every search</li></ul></div>
+        <div><span class="eyebrow">iCIMS (Paychex India)</span><b>Operational filters</b><ul><li>Category, position type and location filters</li><li>Shift and work-location type on every listing (Onsite / Hybrid)</li><li>Visible requisition ID and posted date for each role</li></ul></div>
+        <div><span class="eyebrow">Accenture India job search</span><b>Search that guides the candidate</b><ul><li>Job search, Saved jobs and Access application as three tabs</li><li>Search tip for exact phrases in quotes</li><li>Relevancy and Newest sorting</li><li>"How we hire" section, including how AI is used</li></ul></div>
+        <div><span class="eyebrow">EY careers</span><b>A job page that reads like a brief</b><ul><li>Title, location, salary, date and requisition ID at the top</li><li>Apply now and Apply with LinkedIn, above and below the description</li><li>Fixed sections: the opportunity, key responsibilities, must-haves, nice-to-haves, what we look for, what we offer</li><li>Job alerts with a chosen frequency on the search page, and similar jobs at the end</li></ul></div>
+        <div><span class="eyebrow">Big 4 &amp; TCS career sites</span><b>Guided discovery and trust</b><ul><li>Career-path exploration instead of a bare job list</li><li>Single candidate registration across many openings</li><li>Clear hiring-process stages and privacy notices</li></ul></div>
+      </div>
+      <p class="muted" style="font-size:.85rem;margin-top:10px">Big 4 and TCS patterns are summarised at a general level; confirm specific features on each live site before quoting them to stakeholders.</p>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:6px">Accenture review: what we kept, what we fixed</h3>
+      <p class="muted" style="font-size:.85rem;margin-bottom:12px">Based on the India job-search page as captured on 24 Oct 2026, with no listings loaded at the time. Re-check on the live site before presenting.</p>
+      <div class="review">
+        <div class="panel"><span class="eyebrow">Kept and improved</span><ul>
+          <li><b>Three-tab structure</b><span>Find roles, My applications and alerts live on one site, with no hand-off to a separate application portal.</span></li>
+          <li><b>Exact-phrase search</b><span>Quotes for exact match, plus short forms such as BD, KAM, CRO and TA.</span></li>
+          <li><b>Best match and Newest sorting</b><span>Relevance weights title first, then skills, then description.</span></li>
+          <li><b>AI transparency</b><span>A plain-language note that a recruiter makes every decision.</span></li>
+          <li><b>Skip links</b><span>Keyboard users can jump straight to results.</span></li></ul></div>
+        <div class="panel"><span class="eyebrow">Gaps we closed</span><ul>
+          <li><b>Filter counter read "Filters -1"</b><span>Correct active-filter count and removable filter chips.</span></li>
+          <li><b>Country selector showed India and United States at once</b><span>One location field per listing; no conflicting global switch.</span></li>
+          <li><b>No job alerts on the page</b><span>Alert from any search, with its own consent and a stop button.</span></li>
+          <li><b>No CV matching</b><span>Paste a CV and see matching roles with the skills recognised.</span></li>
+          <li><b>Empty state only offered "Try a new search"</b><span>Empty results offer an alert and one-tap clear.</span></li>
+          <li><b>No fraud warning on the search page</b><span>Recruitment fraud banner above every search.</span></li>
+          <li><b>Application status sits in a separate portal</b><span>Stage tracker and withdraw option on the same site.</span></li></ul></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:12px">What this demo adds for a sales-driven group</h3>
+      <div class="why">
+        <div><b>Apply-once shortlist</b><p class="muted">Candidates save several roles and submit one application covering all of them. HR sees one person, many interests.</p></div>
+        <div><b>Arena-match quiz</b><p class="muted">Three questions route undecided candidates to the right department, reducing wrong-fit applications.</p></div>
+        <div><b>60-second pitch upload</b><p class="muted">Optional voice or video pitch for sales roles, screened before a call is booked.</p></div>
+        <div><b>Bulk-hiring flag</b><p class="muted">Roles with 5+ seats (Lead Generation, Data Research) are badged and sortable, for campaign-style drives.</p></div>
+        <div><b>Two separate consents</b><p class="muted">Processing consent for the application, and an optional, unticked opt-in for future campaigns with unsubscribe on every email.</p></div>
+        <div><b>Bench re-engagement</b><p class="muted">Recruiters target opted-in past applicants by department, including good-fit "Not selected" candidates, before paying to source again.</p></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:12px">Build in three phases</h3>
+      <div class="phases">
+        <div class="phase now"><span class="eyebrow" style="color:var(--hero-accent)">Phase 1 · MVP</span><b>Portal + candidate database</b><ul><li>Job listings with search and filters</li><li>Standard application form, multi-role apply</li><li>Candidate profile and status tracker</li><li>Consent capture and unsubscribe</li><li>Recruiter table with status updates</li><li>Basic dashboard: volume, funnel, source</li></ul></div>
+        <div class="phase"><span class="eyebrow">Phase 2 · Automate</span><b>Campaigns and workflow</b><ul><li>Re-engagement campaigns by department</li><li>Automated status emails and SMS / WhatsApp updates</li><li>Assessment links per role</li><li>Employee referral tracking</li><li>Interview scheduling</li></ul></div>
+        <div class="phase"><span class="eyebrow">Phase 3 · Integrate</span><b>ATS and intelligence</b><ul><li>ATS / HRMS integration, offer letter hand-off</li><li>CV parsing and profile prefill</li><li>Role-to-candidate matching scores</li><li>Hiring-cost and time-to-hire reporting</li><li>Data retention and deletion automation</li></ul></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:1.25rem;margin-bottom:12px">Core data entities</h3>
+      <div class="entities">
+        <div class="entity"><b>Job</b>Req ID, title, department, company, location, work mode, shift, experience band, seats, status, posted date</div>
+        <div class="entity"><b>Candidate</b>Name, email, phone, city, experience, notice period, CV file, LinkedIn, pitch file</div>
+        <div class="entity"><b>Application</b>Candidate × Job, source, stage, stage history with timestamps, recruiter owner</div>
+        <div class="entity"><b>Consent</b>Type (processing / campaigns), interests, frequency, granted at, withdrawn at</div>
+        <div class="entity"><b>Campaign</b>Target department, audience rule, sent count, opens, re-applications</div>
+        <div class="entity"><b>Audit log</b>Who changed which stage or consent, and when</div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="view" id="v-job" hidden><div id="jobPage"></div></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="offices">
+      <div><b>Headquarters</b>Marina Bay Financial Centre Tower 2, Singapore</div>
+      <div><b>Corporate office</b>Champions Square, Sarjapur Main Road, Bengaluru</div>
+      <div><b>India</b>HSR Layout, Bengaluru</div>
+      <div><b>Japan</b>Kita-Aoyama, Minato-ku, Tokyo</div>
+      <div><b>UAE</b>Marina Plaza, Dubai Marina</div>
+      <div><b>UK · USA</b>London · Emeryville, California</div>
+    </div>
+    <p class="disclaimer">Illustrative mock-up for internal review only. Not a live Champions Group portal. All roles, candidates, figures and emails are examples. Champions Group is an equal opportunity employer.</p>
+  </div>
+</footer>
+
+<div class="tray" id="tray" hidden><div class="wrap"><div class="tray-inner">
+  <p><b id="trayN">0 roles</b> saved · apply to all with one profile<br><span id="trayList"></span></p>
+  <button class="btn btn-ghost btn-sm" type="button" id="trayClear" style="color:inherit;border-color:rgba(127,127,127,.4)">Clear</button>
+  <button class="btn btn-gold" type="button" id="trayApply">Apply to saved roles</button>
+</div></div></div>
+
+<div class="scrim center" id="modalScrim" hidden><div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Apply"></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const I={
+ pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ brief:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
+ bld:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V5l8-2v18M12 9h8v12M8 8v.01M8 12v.01M8 16v.01M16 13v.01M16 17v.01"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/></svg>',
+ starO:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/></svg>',
+ x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ check:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+
+/* ---------- JOBS ---------- */
+const J=(id,title,dept,ent,loc,mode,shift,exp,expBand,seats,days,inc,tags,sum,resp,req)=>({id,title,dept,ent,loc,mode,shift,exp,expBand,seats,days,inc,tags,sum,resp,req});
+const jobs=[
+ J('CG-2026-1103','Lead Generation Executive','Lead Generation','LakeB2B','Bengaluru','Onsite','US shift','0–2 yrs',0,20,1,true,['email outreach','research','CRM'],
+  'Build qualified B2B prospect lists and book first conversations for the sales team across North American markets.',
+  ['Research target accounts and decision-makers using data tools','Run email and LinkedIn outreach sequences','Qualify leads against the ideal customer profile','Log every activity cleanly in the CRM'],
+  ['Graduate in any discipline; freshers welcome','Clear written and spoken English','Comfortable with a US-shift schedule','Target-driven and coachable']),
+ J('CG-2026-1101','Business Development Executive','Sales','LakeB2B','Bengaluru','Onsite','US shift','1–3 yrs',0,12,2,true,['cold calling','B2B data','negotiation'],
+  'Own outbound pipeline for data and marketing solutions, from first call to closed deal, with a monthly revenue target.',
+  ['Prospect and call mid-market and enterprise accounts','Run discovery and solution calls','Prepare proposals and negotiate terms','Hit monthly and quarterly revenue targets'],
+  ['1–3 years in B2B inside sales or business development','Proven record against a revenue target','Confident on the phone with senior buyers','Experience with a CRM']),
+ J('CG-2026-1117','Data Research Analyst','Data & Research','Champion InfoMetrics','Bengaluru','Onsite','Day shift','0–2 yrs',0,8,3,false,['Excel','data quality','research'],
+  'Verify and enrich B2B contact and firmographic data that powers our clients\' campaigns.',
+  ['Research and verify company and contact records','Maintain data quality and accuracy targets','Flag duplicates and outdated records','Work to daily productivity benchmarks'],
+  ['Graduate; strong attention to detail','Good working knowledge of Excel','Comfortable with repetitive accuracy-driven work']),
+ J('CG-2026-1104','Lead Generation Specialist','Lead Generation','LakeB2B','Bengaluru','Onsite','US shift','2–4 yrs',1,6,4,true,['ABM','sequences','LinkedIn'],
+  'Design and run account-based outreach for priority segments and coach junior executives on messaging.',
+  ['Build multi-touch outreach sequences per segment','Track reply, meeting and conversion rates','Coach Lead Generation Executives on scripts','Work with marketing on campaign lists'],
+  ['2–4 years in B2B lead generation','Hands-on with sales engagement tools','Strong writing for cold outreach']),
+ J('CG-2026-1113','Customer Success Executive','Customer Service','LakeB2B','Bengaluru','Onsite','US shift','1–3 yrs',0,5,5,false,['client support','renewals','ticketing'],
+  'Be the first point of contact for clients after purchase: delivery questions, data issues and renewals.',
+  ['Resolve client queries within agreed timelines','Coordinate data deliveries with the operations team','Spot upsell and renewal opportunities','Keep client records updated'],
+  ['1–3 years in customer service or account support','Calm and clear communicator','Comfortable on a US-shift schedule']),
+ J('CG-2026-1105','Key Account Manager','Account Management','LakeB2B','Bengaluru','Hybrid','US / UK shift','4–7 yrs',1,4,3,true,['retention','upsell','QBRs'],
+  'Grow and protect revenue from top-tier clients through renewals, expansion and executive relationships.',
+  ['Own a portfolio of high-value client accounts','Run quarterly business reviews','Drive renewals, upsell and cross-sell','Escalate and resolve delivery risks early'],
+  ['4–7 years in account management or B2B sales','Track record of growing existing accounts','Strong presence with senior client stakeholders']),
+ J('CG-2026-1116','Email Marketing Executive','Marketing','LakeB2B','Bengaluru','Hybrid','Day shift','1–3 yrs',0,3,6,false,['email','automation','A/B testing'],
+  'Plan, build and report on email campaigns for the group\'s data and marketing brands.',
+  ['Build and schedule campaigns in marketing automation tools','Run A/B tests on subject lines and content','Report open, click and conversion rates','Keep lists clean and compliant'],
+  ['1–3 years in email marketing','Basic HTML email editing','Understanding of consent and unsubscribe rules']),
+ J('CG-2026-1108','Talent Acquisition Specialist','Recruitment','Champion InfoMetrics','Bengaluru','Onsite','Day shift','2–4 yrs',1,3,2,true,['volume hiring','sourcing','screening'],
+  'Run high-volume hiring for sales and lead-generation teams, from sourcing drives to offer.',
+  ['Source through portals, referrals, campus and the talent community','Screen and schedule candidates','Manage offers and joining follow-ups','Report weekly pipeline numbers'],
+  ['2–4 years in volume or sales hiring','Comfortable with job portals and ATS tools','Organised and persistent']),
+ J('CG-2026-1102','Senior Business Development Manager','Sales','Champion InfoMetrics','Bengaluru','Onsite','US shift','5–8 yrs',2,3,8,true,['enterprise sales','team lead','forecasting'],
+  'Lead a pod of business development executives and close enterprise deals personally.',
+  ['Carry a personal and team revenue target','Coach BDEs on calls and deal strategy','Forecast pipeline accurately each week','Close complex multi-stakeholder deals'],
+  ['5–8 years in B2B sales, 2+ leading people','Consistent over-achievement of quota','Data, SaaS or marketing services background preferred']),
+ J('CG-2026-1111','Junior L&D Coordinator','L&D','Champion InfoMetrics','Bengaluru','Onsite','Day shift','0–2 yrs',0,2,4,false,['training ops','LMS','onboarding'],
+  'Coordinate onboarding batches and training calendars for sales and operations teams.',
+  ['Schedule induction and product training sessions','Track attendance and assessment scores','Maintain training content and the LMS','Collect feedback after every batch'],
+  ['Graduate; freshers welcome','Well organised, good with spreadsheets','Clear communicator']),
+ J('CG-2026-1110','HR Operations Executive','HR','Champion InfoMetrics','Bengaluru','Onsite','Day shift','1–3 yrs',0,2,9,false,['onboarding','payroll inputs','HRMS'],
+  'Run day-to-day HR operations: joining formalities, records, attendance and payroll inputs.',
+  ['Complete joining documentation and background checks','Maintain employee records in the HRMS','Prepare attendance and payroll inputs','Answer employee HR queries'],
+  ['1–3 years in HR operations','Working knowledge of Indian statutory basics','Accurate with data']),
+ J('CG-2026-1107','Inside Sales Manager','Sales','LakeB2B','Bengaluru','Onsite','US shift','6–9 yrs',2,2,7,true,['sales management','process','coaching'],
+  'Manage an inside sales floor: daily targets, call quality, and the rhythm that gets deals closed.',
+  ['Set and track daily activity and revenue targets','Run call reviews and floor huddles','Improve conversion at each funnel stage','Partner with L&D on sales training'],
+  ['6–9 years in inside sales, 3+ managing teams','Strong grip on sales metrics','US-market experience']),
+ J('CG-2026-1115','Digital Marketing Specialist','Marketing','LakeB2B','Bengaluru','Hybrid','Day shift','2–5 yrs',1,2,10,false,['SEO','paid search','analytics'],
+  'Drive inbound demand through SEO, paid campaigns and content distribution.',
+  ['Plan and optimise paid search and social campaigns','Improve organic rankings for key pages','Report cost per lead and pipeline influence','Work with sales on lead quality'],
+  ['2–5 years in B2B digital marketing','Hands-on with ad platforms and web analytics','Data-led decision making']),
+ J('CG-2026-1114','Guest Relations Associate','Customer Service','Champions Yacht Club','Dubai','Onsite','Day shift','1–3 yrs',0,2,12,false,['hospitality','bookings','guest care'],
+  'Look after members and guests from booking to boarding at our Dubai Marina operations.',
+  ['Handle bookings and member enquiries','Welcome guests and manage boarding','Resolve service issues on the spot','Coordinate with crew and operations'],
+  ['1–3 years in hospitality or guest services','Excellent spoken English; Arabic a plus','Flexible on weekends and holidays']),
+ J('CG-2026-1118','Full Stack Developer','IT','Champion InfoMetrics','Bengaluru','Hybrid','Day shift','3–6 yrs',1,2,6,false,['React','Node.js','SQL'],
+  'Build internal platforms, including this talent portal and HR self-service tools.',
+  ['Build web features end to end','Design APIs and database schemas','Write tests and review code','Work with HR and sales stakeholders on requirements'],
+  ['3–6 years of full-stack development','Strong in JavaScript or TypeScript, React and Node.js','Experience with relational databases']),
+ J('CG-2026-1109','HR Generalist','HR','Champion InfoMetrics','Bengaluru','Onsite','Day shift','3–5 yrs',1,1,11,false,['employee relations','policies','engagement'],
+  'Partner with team leads on employee relations, engagement and HR policy across sales teams.',
+  ['Handle employee relations cases','Run engagement initiatives and events','Support performance review cycles','Keep HR policies current and communicated'],
+  ['3–5 years as an HR generalist','Good judgement in sensitive conversations','Working knowledge of labour laws']),
+ J('CG-2026-1112','L&D Associate — Sales Training','L&D','LakeB2B','Bengaluru','Onsite','Day shift','2–4 yrs',1,1,5,false,['sales training','facilitation','content'],
+  'Design and deliver sales training: call scripts, objection handling and product modules.',
+  ['Run induction and refresher sales training','Build role-plays and assessments','Measure training impact on sales metrics','Coach new joiners on the floor'],
+  ['2–4 years in sales or sales training','Confident facilitator','Comfortable turning call data into lessons']),
+ J('CG-2026-1119','IT Support Engineer','IT','Champion InfoMetrics','Bengaluru','Onsite','Day shift','1–3 yrs',0,1,13,false,['helpdesk','networking','assets'],
+  'Keep laptops, phones, dialers and networks running for a fast-moving sales floor.',
+  ['Resolve desktop, network and dialer issues','Set up and track IT assets','Manage access for joiners and leavers','Maintain basic network hygiene'],
+  ['1–3 years in IT support','Windows, networking and basic security knowledge','Responsive and patient']),
+ J('CG-2026-1120','Sales Operations Analyst','Sales','LakeB2B','Bengaluru','Hybrid','Day shift','2–4 yrs',1,1,8,false,['dashboards','CRM','incentives'],
+  'Turn CRM data into dashboards, leaderboards and incentive calculations for sales leadership.',
+  ['Build sales dashboards and leaderboards','Calculate monthly incentive payouts','Keep CRM data clean','Support quarterly grading and planning'],
+  ['2–4 years in sales ops or analytics','Advanced Excel; BI tool experience','Accurate and discreet with numbers']),
+ J('CG-2026-1106','Chief Revenue Officer','Leadership','Champions Group','Bengaluru / Singapore','Hybrid','Global','15+ yrs',3,1,14,true,['revenue strategy','P&L','GTM'],
+  'Own group revenue across data, marketing and SaaS brands: sales, account management, lead generation and revenue operations.',
+  ['Set revenue strategy and targets across business units','Lead sales, account management and lead generation heads','Build forecasting, pricing and incentive frameworks','Report revenue performance to the CEO and board'],
+  ['15+ years in B2B revenue leadership','Has scaled a global sales organisation','Strong commercial and financial judgement'])
+];
+const depts=[...new Set(jobs.map(j=>j.dept))];
+const locs=[...new Set(jobs.map(j=>j.loc))];
+const shifts=[...new Set(jobs.map(j=>j.shift))];
+const ents=[...new Set(jobs.map(j=>j.ent))];
+const modes=['Onsite','Hybrid'];
+const expBands=['0–2 yrs','2–5 yrs','5–10 yrs','10+ yrs'];
+const byId=id=>jobs.find(j=>j.id===id);
+
+/* ---------- STATE ---------- */
+const st={area:null,areaName:'',q:'',dept:'',loc:'',shift:'',mode:new Set(),exp:new Set(),ent:new Set(),inc:false,hot:false,savedOnly:false,sort:'rel',saved:new Set()};
+try{const s=JSON.parse(localStorage.getItem('cth_saved')||'[]');s.forEach(x=>byId(x)&&st.saved.add(x))}catch(e){}
+const persist=()=>{try{localStorage.setItem('cth_saved',JSON.stringify([...st.saved]))}catch(e){}};
+
+/* ---------- HERO + FILTERS ---------- */
+function opts(sel,label,vals){sel.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option>${esc(v)}</option>`).join('')}
+opts($('#fDept'),'All departments',depts);opts($('#fLoc'),'All locations',locs);opts($('#fShift'),'Any shift',shifts);
+$('#sbRoles').textContent=jobs.length;
+$('#sbSeats').textContent=jobs.reduce((a,j)=>a+j.seats,0);
+$('#sbEnt').textContent=ents.length;
+$('#sbLoc').textContent=new Set(jobs.flatMap(j=>j.loc.split(' / '))).size;
+
+function renderChips(){
+  const counts=d=>jobs.filter(j=>j.dept===d).length;
+  $('#arenaChips').innerHTML=`<button type="button" class="chip" data-d="" aria-pressed="${!st.dept}">All <i>${jobs.length}</i></button>`+
+   depts.map(d=>`<button type="button" class="chip" data-d="${esc(d)}" aria-pressed="${st.dept===d}">${esc(d)} <i>${counts(d)}</i></button>`).join('');
+}
+$('#arenaChips').addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(!b)return;st.dept=b.dataset.d;st.area=null;$('#fDept').value=st.dept;renderAll()});
+const IC={trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/>',hand:'<path d="M3 12l4-4 5 3 5-3 4 4-9 7-9-7Z"/>',mega:'<path d="M3 11v2a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1ZM17 9a4 4 0 0 1 0 6"/>',data:'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>',code:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 6l-2 12"/>',people:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 4a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.6"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9L12 3Z"/>'};
+const svgI=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[k]}</svg>`;
+const AREAS=[
+ ['Sales & Business Development',['Sales','Leadership'],'Open doors, run the deal and close it. Every number you hit shows on the leaderboard and in your incentive.','trend'],
+ ['Lead Generation',['Lead Generation'],'Find the right buyer before anyone else does. The fastest way into a B2B sales career.','target'],
+ ['Account Management',['Account Management'],'Keep our biggest clients growing, renewing and coming back for more.','hand'],
+ ['Marketing',['Marketing'],'Create demand for data and marketing brands that sell worldwide.','mega'],
+ ['Data & Research',['Data & Research'],'Build the accurate B2B data our clients run their campaigns on.','data'],
+ ['Technology',['IT'],'Build and run the platforms behind our sales floors, data delivery and this portal.','code'],
+ ['People & Learning',['HR','Recruitment','L&D'],'Hire, train and look after the people who power the group.','people'],
+ ['Customer Experience',['Customer Service'],'Be the voice clients and guests remember, from data delivery to Dubai Marina.','star']];
+function renderAreas(){$('#areaGrid').innerHTML=AREAS.map(([n,d,p,i],k)=>{const js=jobs.filter(j=>d.includes(j.dept)),s=js.reduce((a,j)=>a+j.seats,0);
+  return `<button type="button" class="area" data-area="${k}"><span class="emblem">${svgI(i)}</span><b>${esc(n)}</b><p>${esc(p)}</p><span class="go">Explore ${js.length} role${js.length===1?'':'s'} · ${s} seat${s===1?'':'s'} →</span></button>`}).join('')}
+const STAGEC=[
+ ['Students & freshers','Start strong','Entry roles in sales, lead generation and data, with training from week one.','0–2 yrs'],
+ ['Experienced professionals','2 – 5 years','Step up to specialist roles where your track record counts.','2–5 yrs'],
+ ['Senior professionals','5 – 10 years','Lead teams, own targets and shape how we sell.','5–10 yrs'],
+ ['Leaders','10+ years','Run a function or a business line across the group.','10+ yrs'],
+ ['Career returners','Coming back','Returning after a break? Join the community and we will match you to the right role.','']];
+function renderStages(){$('#stageGrid').innerHTML=STAGEC.map(([n,t,p,b],k)=>{const c=b?jobs.filter(j=>bandOf(j)===b).length:0;
+  return `<button type="button" class="stage" data-stage="${k}"><span>${esc(t)}</span><b>${esc(n)}</b><p>${esc(p)}</p><span style="margin-top:4px">${b?`${c} open role${c===1?'':'s'} →`:'Join the talent community →'}</span></button>`}).join('')}
+const jump=id=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})};
+function checks(fs,vals,set,countFn){
+  const lg=fs.querySelector('legend').outerHTML;
+  fs.innerHTML=lg+vals.map((v,i)=>`<label class="check"><input type="checkbox" data-v="${esc(v)}" ${set.has(v)?'checked':''} id="${fs.id}-${i}"> ${esc(v)} <em>${countFn(v)}</em></label>`).join('');
+  fs.onchange=e=>{const v=e.target.dataset.v;e.target.checked?set.add(v):set.delete(v);renderJobs()};
+}
+const bandOf=j=>expBands[j.expBand];
+checks($('#fsMode'),modes,st.mode,v=>jobs.filter(j=>j.mode===v).length);
+checks($('#fsExp'),expBands,st.exp,v=>jobs.filter(j=>bandOf(j)===v).length);
+checks($('#fsEnt'),ents,st.ent,v=>jobs.filter(j=>j.ent===v).length);
+$('#fInc').onchange=e=>{st.inc=e.target.checked;renderJobs()};
+$('#fHot').onchange=e=>{st.hot=e.target.checked;renderJobs()};
+$('#fSaved').onchange=e=>{st.savedOnly=e.target.checked;renderJobs()};
+$('#sort').onchange=e=>{st.sort=e.target.value;renderJobs()};
+$('#q').addEventListener('input',e=>{st.q=e.target.value;renderJobs()});
+['fDept','fLoc','fShift'].forEach(id=>$('#'+id).onchange=e=>{st[{fDept:'dept',fLoc:'loc',fShift:'shift'}[id]]=e.target.value;if(id==='fDept')st.area=null;renderAll()});
+$('#moreOpt').onclick=()=>{const b=$('#moreBox'),open=b.hidden;b.hidden=!open;$('#moreOpt').setAttribute('aria-expanded',open);$('#moreOpt').textContent=open?'Fewer options':'More options'};
+$('#clearS').onclick=()=>{['fDept','fLoc','fShift'].forEach(id=>$('#'+id).value='');Object.assign(st,{dept:'',loc:'',shift:'',area:null,areaName:''});renderAll()};
+$('#searchForm').onsubmit=e=>{e.preventDefault();document.getElementById('openings').scrollIntoView({behavior:'smooth'})};
+$('#clearF').onclick=()=>{Object.assign(st,{area:null,areaName:'',q:'',dept:'',loc:'',shift:'',inc:false,hot:false,savedOnly:false});st.mode.clear();st.exp.clear();st.ent.clear();
+  ['q','fDept','fLoc','fShift'].forEach(id=>$('#'+id).value='');['fInc','fHot','fSaved'].forEach(id=>$('#'+id).checked=false);
+  document.querySelectorAll('.filters input[data-v]').forEach(i=>i.checked=false);renderAll()};
+
+const SYN={bd:'business development',bde:'business development',bdm:'business development',kam:'key account',cro:'chief revenue',ta:'talent acquisition',cs:'customer success',leadgen:'lead generation','lead-gen':'lead generation',dev:'developer'};
+const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const has=(h,w)=>w.length<=3?new RegExp('(^|[^a-z])'+reEsc(w)+'([^a-z]|$)').test(h):h.includes(w);
+function parseQ(q){const phrases=[];q=q.replace(/"([^"]+)"/g,(_,p)=>{phrases.push(p.toLowerCase().trim());return ' '});
+  const words=q.toLowerCase().split(/\s+/).filter(Boolean).map(w=>SYN[w]||w);return{phrases,words,empty:!phrases.length&&!words.length}}
+const hay=j=>[j.title,j.dept,j.id,j.ent,j.loc,j.shift,j.sum,...j.tags].join(' ').toLowerCase();
+function matchQ(j,P){if(P.empty)return true;const h=hay(j);return P.phrases.every(p=>h.includes(p))&&P.words.every(w=>has(h,w))}
+function rel(j,P){if(P.empty)return 0;const t=j.title.toLowerCase(),tg=j.tags.join(' ').toLowerCase(),h=hay(j);let s=0;
+  [...P.phrases,...P.words].forEach(w=>{s+=has(t,w)?5:has(tg,w)?2:has(h,w)?1:0});return s}
+function filtered(){
+  const P=parseQ(st.q);
+  let r=jobs.filter(j=>matchQ(j,P)
+   &&(!st.dept||j.dept===st.dept)&&(!st.area||st.area.includes(j.dept))&&(!st.loc||j.loc===st.loc)&&(!st.shift||j.shift===st.shift)
+   &&(!st.mode.size||st.mode.has(j.mode))&&(!st.exp.size||st.exp.has(bandOf(j)))&&(!st.ent.size||st.ent.has(j.ent))
+   &&(!st.inc||j.inc)&&(!st.hot||j.seats>=5)&&(!st.savedOnly||st.saved.has(j.id)));
+  const s={rel:(a,b)=>rel(b,P)-rel(a,P)||a.days-b.days,new:(a,b)=>a.days-b.days,seats:(a,b)=>b.seats-a.seats,az:(a,b)=>a.title.localeCompare(b.title)}[st.sort];
+  return r.sort(s);
+}
+const ago=d=>d===0?'Today':d===1?'Posted yesterday':`Posted ${d} days ago`;
+function jobCard(j){
+  const saved=st.saved.has(j.id);
+  return `<article class="job">
+   <div class="job-main">
+    <div class="job-top"><span class="mono muted">${j.id}</span>${j.seats>=5?'<span class="tag hot">Bulk hiring</span>':''}${j.inc?'<span class="tag inc">Incentive-eligible</span>':''}</div>
+    <h3><button type="button" data-open="${j.id}">${esc(j.title)}</button></h3>
+    <div class="meta"><span>${I.brief}${esc(j.dept)}</span><span>${I.bld}${esc(j.ent)}</span><span>${I.pin}${esc(j.loc)} · ${j.mode}</span><span>${I.clock}${esc(j.shift)} · ${j.exp}</span></div>
+    <p class="sum">${esc(j.sum)}</p>
+   </div>
+   <div class="job-side">
+    <div class="seats"><b>${j.seats}</b><span>${j.seats>1?'positions':'position'} · ${ago(j.days)}</span></div>
+    <div class="job-actions">
+     <button type="button" class="save" data-save="${j.id}" aria-pressed="${saved}" aria-label="${saved?'Remove from saved':'Save role'}">${saved?I.star:I.starO}</button>
+     <button type="button" class="btn btn-ink btn-sm" data-open="${j.id}">View &amp; apply</button>
+    </div>
+   </div></article>`;
+}
+function activeList(){const a=[];if(st.area)a.push(['area','',st.areaName]);if(st.q.trim())a.push(['q','',`“${st.q.trim()}”`]);
+  ['dept','loc','shift'].forEach(k=>{if(st[k])a.push([k,'',st[k]])});
+  ['mode','exp','ent'].forEach(k=>st[k].forEach(v=>a.push([k,v,v])));
+  if(st.inc)a.push(['inc','','Incentive-eligible']);if(st.hot)a.push(['hot','','Bulk hiring']);if(st.savedOnly)a.push(['savedOnly','','Saved only']);return a}
+const xs=I.x.replace('width="18" height="18"','width="12" height="12"');
+function renderJobs(){
+  const r=filtered();$('#resCount').textContent=r.length;
+  const a=activeList();$('#fCount').textContent=a.length?`· ${a.length} active`:'';
+  const af=$('#activeF');af.hidden=!a.length;af.innerHTML=a.map(([k,v,l])=>`<button type="button" data-rm="${k}" data-rv="${esc(v)}" aria-label="Remove filter ${esc(l)}">${esc(l)} ${xs}</button>`).join('');
+  $('#jobList').innerHTML=r.length?r.map(jobCard).join(''):`<div class="empty"><b>No roles match this search yet.</b><p style="margin-top:6px">Remove a filter above, or get an email the moment a matching role opens.</p><div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap"><button class="btn btn-ink btn-sm" type="button" data-alert>Alert me when it opens</button><button class="btn btn-ghost btn-sm" type="button" id="clearF2">Clear all filters</button></div></div>`;
+  const c2=$('#clearF2');if(c2)c2.onclick=()=>$('#clearF').click();
+}
+$('#activeF').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;const k=b.dataset.rm,v=b.dataset.rv;
+  if(k==='area'){st.area=null;st.areaName=''}
+  else if(st[k] instanceof Set){st[k].delete(v);document.querySelectorAll('.filters input[data-v]').forEach(i=>{if(i.dataset.v===v)i.checked=false})}
+  else if(typeof st[k]==='boolean'){st[k]=false;$({inc:'#fInc',hot:'#fHot',savedOnly:'#fSaved'}[k]).checked=false}
+  else{st[k]='';$({q:'#q',dept:'#fDept',loc:'#fLoc',shift:'#fShift'}[k]).value=''}
+  renderAll()});
+function renderAll(){renderChips();renderJobs()}
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open]');if(o){openJob(o.dataset.open);return}
+  const s=e.target.closest('[data-save]');if(s){toggleSave(s.dataset.save);return}
+  const al=e.target.closest('[data-alert]');if(al){openAlert(al.dataset.alert);return}
+  const apb=e.target.closest('[data-apply]');if(apb){const id=apb.dataset.apply;openApply([...new Set([id,...st.saved])],id);return}
+  const ar=e.target.closest('[data-area]');if(ar){const a=AREAS[+ar.dataset.area];st.area=a[1];st.areaName=a[0];st.dept='';$('#fDept').value='';renderAll();jump('openings');return}
+  const sg=e.target.closest('[data-stage]');if(sg){const b=STAGEC[+sg.dataset.stage][3];if(!b){jump('community');return}
+    st.exp.clear();st.exp.add(b);document.querySelectorAll('#fsExp input').forEach(i=>i.checked=i.dataset.v===b);renderAll();jump('openings');return}
+  const sc=e.target.closest('[data-scroll]');if(sc){jump(sc.dataset.scroll);return}
+  const ua=e.target.closest('[data-unal]');if(ua){alerts.splice(+ua.dataset.unal,1);renderAlerts();toast('Alert stopped');return}
+  const wd=e.target.closest('[data-wd]');if(wd){const a=myApps[+wd.dataset.wd];if(!a.confirm){a.confirm=true;renderApps();return}
+    a.status='Withdrawn';a.confirm=false;const c=cands.find(x=>x.fresh&&x.job===a.job&&!x.pool);if(c)c.status='Withdrawn';renderApps();renderRecruiter();toast('Application withdrawn');return}
+  const g=e.target.closest('[data-go]');if(g){go(g.dataset.go)}
+});
+function ninety(j){
+  if(j.dept==='Leadership')return['Days 1–30: meet every revenue leader and the top 20 clients','Days 31–60: present a revenue diagnosis and plan to the CEO','Days 61–90: new targets, incentive frameworks and forecast rhythm live'];
+  if(['Sales','Lead Generation','Account Management'].includes(j.dept))return['Weeks 1–2: product, ideal customer profile and CRM training with L&D','Weeks 3–4: shadow top performers, then make your first live calls','Month 2: ramped target with daily coaching','Month 3: full target and your first incentive cycle'];
+  if(['IT','Data & Research','Marketing'].includes(j.dept))return['Week 1: tools, access and a walk-through of the systems you will own','Month 1: deliver your first piece of work with a buddy','Month 2: own your workstream and its metrics','Month 3: first review against role KPIs'];
+  return['Week 1: policies, systems and team introductions','Month 1: handle your first cases or batches alongside a buddy','Month 2: own your process end to end','Month 3: first review against role KPIs'];
+}
+function toggleSave(id){st.saved.has(id)?st.saved.delete(id):st.saved.add(id);persist();renderJobs();renderTray();
+  if(currentView==='job')openJob(lastJob,false)}
+function renderTray(){
+  const n=st.saved.size;$('#tray').hidden=!n||currentView!=='careers';
+  $('#trayN').textContent=n+(n===1?' role':' roles');
+  $('#trayList').innerHTML=[...st.saved].map(id=>`<span class="pill">${esc(byId(id).title)}</span>`).join('');
+}
+$('#trayClear').onclick=()=>{st.saved.clear();persist();renderJobs();renderTray()};
+$('#trayApply').onclick=()=>openApply([...st.saved]);
+
+/* ---------- JOB DESCRIPTION PAGE ---------- */
+let lastJob=null;
+const BASE=new Date(2026,9,24);
+const fmtDate=d=>{const x=new Date(BASE);x.setDate(x.getDate()-d);return x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+function family(j){if(j.dept==='Leadership')return'lead';if(['Sales','Lead Generation','Account Management'].includes(j.dept))return'sales';
+  if(['IT','Data & Research','Marketing'].includes(j.dept))return'tech';if(j.dept==='Customer Service')return'cx';return'people'}
+const IDEAL={
+  sales:['Experience selling data, SaaS or marketing services to US or UK buyers','Hands-on use of a sales engagement tool and a CRM such as HubSpot or Salesforce','A record of finishing near the top of a sales leaderboard'],
+  people:['Experience in a fast-growing, sales-driven organisation','Working knowledge of an HRMS or applicant tracking system','Comfort presenting numbers to managers'],
+  tech:['Experience with data or marketing tools used in B2B','Comfort automating repetitive work with scripts or formulas','Experience working directly with business users'],
+  cx:['Experience with international clients or guests','A second language','Familiarity with ticketing or booking systems'],
+  lead:['Experience across several business units or geographies','Board-level reporting experience','Experience designing commission and incentive frameworks']};
+const LOOK={
+  sales:'People who enjoy a target, pick up the phone without hesitation and learn fast from every no. If you like seeing your name climb a leaderboard, you will fit right in.',
+  people:'People who care about getting the detail right and making work better for everyone around them. You are organised, discreet and quick to follow through.',
+  tech:'Curious builders who like clean data and clear logic, and who want to see their work used every day by real teams.',
+  cx:'Calm, warm communicators who own a problem until it is solved and leave every client or guest better off.',
+  lead:'A commercial leader who builds strong teams, sets the operating rhythm and is accountable for the number.'};
+const TEAM={sales:'works to clear monthly targets with daily coaching',people:'supports teams across the group',tech:'builds and runs the systems the group relies on',cx:'looks after clients and guests every day',lead:'works closely with group leadership'};
+const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join('');
+function offers(j){return[j.inc?'Fixed pay plus an incentive tied to clear, published targets':'Competitive fixed pay','Structured onboarding and ongoing training from the L&D team','Clear growth paths, including moves across the group\'s 20 businesses','Team events, recognition and leadership retreats']}
+function openJob(id,nav=true){
+  const j=byId(id);if(!j)return;lastJob=id;const saved=st.saved.has(id),f=family(j);
+  const similar=[...jobs.filter(x=>x.dept===j.dept&&x.id!==id),...jobs.filter(x=>family(x)===f&&x.dept!==j.dept)].slice(0,3);
+  const applyRow=`<div class="apply-row"><button class="btn btn-gold" type="button" data-apply="${id}">Apply now</button><button class="btn btn-ghost" type="button" data-apply="${id}">Apply with LinkedIn <span class="muted" style="font-weight:500">(demo)</span></button></div>`;
+  $('#jobPage').innerHTML=`<div class="wrap jp">
+   <button type="button" class="back" id="jpBack">← Back to search results</button>
+   <div class="jp-grid">
+    <article style="min-width:0">
+     <header class="jp-head"><span class="eyebrow">${esc(j.ent)} · ${esc(j.dept)}</span><h1>${esc(j.title)}</h1>
+      <dl class="jp-meta"><div><dt>Location</dt><dd>${esc(j.loc)}</dd></div><div><dt>Work mode</dt><dd>${j.mode} · ${esc(j.shift)}</dd></div><div><dt>Salary</dt><dd>${j.inc?'Competitive + incentive':'Competitive'}</dd></div><div><dt>Experience</dt><dd>${j.exp}</dd></div><div><dt>Date posted</dt><dd>${fmtDate(j.days)}</dd></div><div><dt>Requisition ID</dt><dd class="mono">${j.id}</dd></div></dl>
+      ${applyRow}
+     </header>
+     <div class="jd">
+      <p class="jd-lead">${esc(j.sum)}</p>
+      <h2>The opportunity</h2><p>${j.seats>1?`We're hiring ${j.seats} people for this role`:'This is a single, high-impact position'} at ${esc(j.ent)}, based in ${esc(j.loc)} (${j.mode.toLowerCase()}, ${esc(j.shift)}). You'll join a ${esc(j.dept)} team that ${TEAM[f]}.</p>
+      <h2>Your key responsibilities</h2><ul>${li(j.resp)}</ul>
+      <h2>To qualify for the role you must have</h2><ul>${li(j.req)}</ul>
+      <h2>Ideally, you'll also have</h2><ul>${li(IDEAL[f])}</ul>
+      <h2>What we look for</h2><p>${LOOK[f]}</p>
+      <h2>Your first 90 days</h2><div class="d90">${ninety(j).map(x=>`<div>${esc(x)}</div>`).join('')}</div>
+      <h2>What working at Champions offers <span class="flag">Draft · confirm with HR</span></h2><ul>${li(offers(j))}</ul>
+      <h2>Skills on this role</h2><div class="chips">${j.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
+      <p class="jd-note">Champions Group is an equal opportunity employer. We hire on skills and potential and welcome everyone who meets the requirements. Tell us if you need any adjustment during the hiring process. We never charge a fee at any stage.</p>
+      <div class="jd-cta"><b style="font-size:1.15rem">Ready to make your mark?</b><p class="muted">Apply today. A recruiter reviews every application within 3 working days.</p>${applyRow}</div>
+     </div>
+    </article>
+    <aside class="jp-side">
+     <div class="side-card"><b>${esc(j.title)}</b><span class="muted" style="font-size:.86rem">${j.seats} position${j.seats>1?'s':''} · ${j.exp} · ${ago(j.days)}</span>
+      <button class="btn btn-gold" type="button" data-apply="${id}">Apply now</button>
+      <button class="btn btn-ghost" type="button" data-save="${id}">${saved?'Saved · remove':'Save and apply with others'}</button>
+      <div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" style="flex:1" type="button" id="dShare">Copy link</button><button class="btn btn-ghost btn-sm" style="flex:1" type="button" id="dRef">Refer a friend</button></div>
+      <p class="mono muted" id="dLink" hidden style="word-break:break-all;font-size:.75rem"></p></div>
+     <form id="refForm" class="side-card" hidden novalidate><b>Refer someone</b><div class="field"><label for="refEmp">Your employee ID</label><input id="refEmp" placeholder="e.g. CIPL0123"></div><div class="field"><label for="refMail">Friend's email</label><input id="refMail" type="email"></div><p class="muted" style="font-size:.8rem">We send your friend one email about this role.</p><p class="err" id="refErr" hidden></p><button class="btn btn-ink btn-sm" type="submit">Send referral (demo)</button></form>
+     <div class="side-card"><span class="eyebrow">Job alert</span><p style="font-size:.9rem">Get new ${esc(j.dept)} roles by email as soon as they open.</p><button class="btn btn-ghost btn-sm" type="button" data-alert="${esc(j.dept)}">Create alert</button></div>
+    </aside>
+   </div>
+   ${similar.length?`<section class="similar"><h2>Find similar jobs</h2><div class="jobs">${similar.map(jobCard).join('')}</div></section>`:''}
+  </div>`;
+  if(nav){go('job');try{history.replaceState(null,'','#'+id)}catch(e){}}
+  $('#jpBack').onclick=()=>{go('careers');requestAnimationFrame(()=>jump('openings'))};
+  $('#dShare').onclick=()=>{const url=location.href.split('#')[0]+'#'+id;const show=()=>{const p=$('#dLink');p.hidden=false;p.textContent=url};
+    try{navigator.clipboard.writeText(url).then(()=>toast('Job link copied'),show)}catch(e){show()}};
+  $('#dRef').onclick=()=>{$('#refForm').hidden=!$('#refForm').hidden};
+  $('#refForm').onsubmit=e=>{e.preventDefault();const em=$('#refEmp').value.trim(),fm=$('#refMail').value.trim(),er=$('#refErr');
+    if(!em||!/^\S+@\S+\.\S+$/.test(fm)){er.hidden=false;er.textContent="Add your employee ID and your friend's email.";return}
+    er.hidden=true;cands.unshift({id:'r'+Date.now(),name:fm.split('@')[0],job:id,status:'Referred',source:'Employee referral',consent:false,days:0,exp:0,city:'—',fresh:true,pool:true});
+    renderRecruiter();$('#refForm').hidden=true;toast('Demo: referral sent. It appears in the recruiter console as Referred.')};
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#modalScrim').hidden=true});
+
+
+/* ---------- APPLY FLOW ---------- */
+let ap={};
+function openApply(ids,primary){ap={step:0,ids:new Set(primary?[primary]:ids),pool:ids,name:'',email:'',phone:'',city:'Bengaluru',exp:'',notice:'Immediate',source:'Careers portal',li:'',cv:'',pitch:'',proc:false,camp:false};renderApply();$('#modalScrim').hidden=false}
+const STEPN=['Choose roles','Your profile','Show your edge','Consent & submit'];
+function renderApply(){
+  const m=$('#modal'),s=ap.step;
+  if(s===4){m.innerHTML=`<div class="modal-body"><div class="success"><div class="ring">${I.check}</div><h3 style="font-size:1.5rem">Application received</h3><p class="muted" style="max-width:44ch">You applied for ${ap.ids.size} ${ap.ids.size>1?'roles':'role'} with one profile. Track each one in My applications. A recruiter will review within 3 working days.</p><p class="mono muted">Application ID ${ap.appId}</p><div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><button class="btn btn-ink" type="button" id="toApps">View my applications</button><button class="btn btn-ghost" type="button" id="toRec">See it in the recruiter console</button></div></div></div>`;
+    $('#toApps').onclick=()=>{$('#modalScrim').hidden=true;go('applications')};$('#toRec').onclick=()=>{$('#modalScrim').hidden=true;go('recruiter')};return}
+  const pool=[...new Set([...ap.pool,...ap.ids])];
+  let body='';
+  if(s===0)body=`<p class="muted">Pick every role you want to be considered for. You fill in your details once.</p>
+    ${pool.map(id=>{const j=byId(id);return `<label class="pick"><input type="checkbox" data-pid="${id}" ${ap.ids.has(id)?'checked':''}><b>${esc(j.title)}</b><span class="muted" style="font-size:.8rem">${esc(j.dept)} · ${j.seats} seats</span></label>`}).join('')}
+    <div class="field"><label for="addRole">Add another role</label><select id="addRole"><option value="">Choose a role…</option>${jobs.filter(j=>!pool.includes(j.id)).map(j=>`<option value="${j.id}">${esc(j.title)} (${esc(j.dept)})</option>`).join('')}</select></div>`;
+  if(s===1)body=`<div class="grid2">
+    <div class="field"><label for="aName">Full name *</label><input id="aName" value="${esc(ap.name)}" autocomplete="name"></div>
+    <div class="field"><label for="aEmail">Email *</label><input id="aEmail" type="email" value="${esc(ap.email)}" autocomplete="email"></div>
+    <div class="field"><label for="aPhone">Mobile *</label><input id="aPhone" type="tel" value="${esc(ap.phone)}" autocomplete="tel" placeholder="+91"></div>
+    <div class="field"><label for="aCity">Current city</label><input id="aCity" value="${esc(ap.city)}"></div>
+    <div class="field"><label for="aExp">Total experience (years) *</label><input id="aExp" type="number" min="0" step="0.5" value="${esc(ap.exp)}"></div>
+    <div class="field"><label for="aNotice">Notice period</label><select id="aNotice">${['Immediate','15 days','30 days','60 days','90 days'].map(o=>`<option ${o===ap.notice?'selected':''}>${o}</option>`).join('')}</select></div>
+    <div class="field"><label for="aSource">How did you hear about us?</label><select id="aSource">${['Careers portal','LinkedIn','Naukri','Employee referral','Talent community','Campus'].map(o=>`<option ${o===ap.source?'selected':''}>${o}</option>`).join('')}</select></div>
+    <div class="field"><label for="aLi">LinkedIn URL</label><input id="aLi" value="${esc(ap.li)}" placeholder="linkedin.com/in/…"></div></div>
+    <div class="drop"><div style="flex:1;min-width:180px"><b>Upload CV *</b><p class="muted" style="font-size:.8rem">PDF or DOCX, up to 5 MB. In the live build this pre-fills your profile.</p></div><input type="file" id="aCv" accept=".pdf,.doc,.docx"></div>
+    ${ap.cv?`<p class="muted" style="font-size:.82rem">Attached: ${esc(ap.cv)}</p>`:''}<p class="err" id="aErr" hidden></p>`;
+  if(s===2){const sales=[...ap.ids].some(id=>['Sales','Lead Generation','Account Management','Leadership'].includes(byId(id).dept));
+    body=`<p class="muted">Optional, but it moves you up the queue${sales?' for sales roles':''}.</p>
+    <div class="drop"><div style="flex:1;min-width:180px"><b>60-second pitch</b><p class="muted" style="font-size:.8rem">Record a short voice note or video: who you are and why you'd win in this role.</p></div><input type="file" id="aPitch" accept="audio/*,video/*"></div>
+    ${ap.pitch?`<p class="muted" style="font-size:.82rem">Attached: ${esc(ap.pitch)}</p>`:''}
+    <div class="field"><label for="aWin">Your proudest number</label><textarea id="aWin" rows="3" placeholder="e.g. Booked 42 meetings in a quarter against a target of 30"></textarea></div>`}
+  if(s===3)body=`<div class="panel" style="padding:16px;background:var(--surface-2);border:0"><b>Summary</b><p class="muted" style="font-size:.88rem">${esc(ap.name)} · ${esc(ap.email)} · ${esc(ap.exp)} yrs</p><div class="chips">${[...ap.ids].map(id=>`<span class="tag">${esc(byId(id).title)}</span>`).join('')}</div></div>
+    <label class="consent"><input type="checkbox" id="aProc" ${ap.proc?'checked':''}> <span><b>Required.</b> I agree that Champions Group may process my details to assess this application, and to contact me about it. <u>Privacy notice</u></span></label>
+    <label class="consent"><input type="checkbox" id="aCamp" ${ap.camp?'checked':''}> <span><b>Optional.</b> Also email me about future roles in the same departments. I can unsubscribe from any email.</span></label>
+    <p class="note muted">The second box starts unticked on purpose: applying never signs anyone up for campaign emails.</p><p class="err" id="aErr" hidden></p>`;
+  m.innerHTML=`<div class="modal-head"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><span class="eyebrow">Step ${s+1} of 4</span><h3 style="font-size:1.35rem;margin-top:4px">${STEPN[s]}</h3></div><button class="x" type="button" id="mClose" aria-label="Close">${I.x}</button></div><div class="steps">${[0,1,2,3].map(i=>`<div class="${i<=s?'on':''}"></div>`).join('')}</div></div>
+   <div class="modal-body">${body}</div>
+   <div class="modal-foot"><button class="btn btn-ghost" type="button" id="mBack" ${s===0?'disabled':''}>Back</button><button class="btn btn-gold" type="button" id="mNext" ${s===0&&!ap.ids.size?'disabled':''}>${s===3?'Submit application':'Continue'}</button></div>`;
+  $('#mClose').onclick=()=>$('#modalScrim').hidden=true;
+  $('#mBack').onclick=()=>{save();ap.step--;renderApply()};
+  $('#mNext').onclick=next;
+  if(s===0){m.querySelectorAll('[data-pid]').forEach(c=>c.onchange=()=>{c.checked?ap.ids.add(c.dataset.pid):ap.ids.delete(c.dataset.pid);$('#mNext').disabled=!ap.ids.size});
+    $('#addRole').onchange=e=>{if(e.target.value){ap.ids.add(e.target.value);ap.pool=[...ap.pool,e.target.value];renderApply()}}}
+  if(s===1)$('#aCv').onchange=e=>{ap.cv=e.target.files[0]?.name||''};
+  if(s===2)$('#aPitch').onchange=e=>{ap.pitch=e.target.files[0]?.name||''};
+}
+function save(){
+  if(ap.step===1){['name','email','phone','city','exp','li'].forEach(k=>ap[k]=$('#a'+k[0].toUpperCase()+k.slice(1)).value.trim());ap.notice=$('#aNotice').value;ap.source=$('#aSource').value}
+  if(ap.step===3){ap.proc=$('#aProc').checked;ap.camp=$('#aCamp').checked}
+}
+function next(){
+  save();const err=$('#aErr');
+  if(ap.step===1){const miss=[];if(!ap.name)miss.push('full name');if(!/^\S+@\S+\.\S+$/.test(ap.email))miss.push('a valid email');if(ap.phone.replace(/\D/g,'').length<10)miss.push('a 10-digit mobile number');if(ap.exp==='')miss.push('experience');if(!ap.cv)miss.push('your CV');
+    if(miss.length){err.hidden=false;err.textContent='Please add '+miss.join(', ')+' to continue.';return}}
+  if(ap.step===3){if(!ap.proc){err.hidden=false;err.textContent='Tick the required consent so we can process your application.';return}
+    ap.appId='APP-'+String(Date.now()).slice(-6);
+    [...ap.ids].forEach((id,k)=>{cands.unshift({id:'n'+Date.now()+k,name:ap.name,job:id,status:'Applied',source:ap.source,consent:ap.camp,days:0,exp:Number(ap.exp)||0,city:ap.city||'—',fresh:true});
+      myApps.unshift({job:id,status:'Applied',days:0,appId:ap.appId})});
+    me={name:ap.name,email:ap.email,line:`${ap.email} · ${ap.city||'—'} · ${ap.exp} yrs experience`,example:false};
+    st.saved.clear();persist();renderJobs();renderTray();renderApps();renderRecruiter();}
+  ap.step++;renderApply();
+}
+$('#modalScrim').addEventListener('click',e=>{if(e.target.id==='modalScrim')$('#modalScrim').hidden=true});
+
+/* ---------- QUIZ ---------- */
+const qa=[null,null,null];
+document.querySelectorAll('#quiz .opts').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;
+  g.querySelectorAll('.opt').forEach(o=>o.setAttribute('aria-pressed',o===b));qa[+g.dataset.q]=b.dataset.v;renderMatch()}));
+const affinity={hunt:['Sales','Lead Generation','Account Management','Leadership'],people:['Recruitment','HR','L&D','Customer Service'],data:['Data & Research','Marketing','Sales'],build:['IT','Sales']};
+function renderMatch(){
+  if(qa.some(v=>v===null))return;
+  const lvl=+qa[1];
+  const scored=jobs.map(j=>{let s=0;const a=affinity[qa[0]];const i=a.indexOf(j.dept);if(i>-1)s+=50-i*8;
+    s+=Math.max(0,30-Math.abs(j.expBand-lvl)*15);
+    const night=/US|UK|Global/.test(j.shift);s+=qa[2]==='y'?(night?20:12):(night?-30:20);
+    if(j.id==='CG-2026-1120'&&qa[0]==='data')s+=10;return{j,s:Math.max(0,Math.min(99,Math.round(s)))}}).sort((a,b)=>b.s-a.s).slice(0,3);
+  $('#matchOut').innerHTML=`<span class="eyebrow">Your best-fit roles</span>`+scored.map(({j,s})=>`<div class="match-row"><b>${esc(j.title)}<br><span class="muted" style="font-weight:500;font-size:.8rem">${esc(j.dept)} · ${esc(j.shift)}</span></b><span class="score">${s}% fit</span><button class="btn btn-ink btn-sm" type="button" data-open="${j.id}">View</button></div>`).join('');
+}
+
+/* ---------- CV MATCH ---------- */
+const SAMPLE_CV=`Business Development Associate, 2.5 years
+Inside sales for a US SaaS company on night shift. Cold calling 80+ dials a day, email outreach sequences and LinkedIn prospecting.
+Booked 120 meetings in 2025 at 118% of target. Managed pipeline in HubSpot CRM. Comfortable with negotiation and B2B data tools. Advanced Excel.`;
+const SKILLS={'cold call':['cold calling'],'calling':['cold calling'],'outreach':['email outreach','sequences'],'sequence':['sequences'],'linkedin':['LinkedIn'],'crm':['CRM'],'hubspot':['CRM'],'salesforce':['CRM'],'negotiat':['negotiation'],'b2b':['B2B data'],'excel':['Excel'],'data quality':['data quality'],'research':['research'],'recruit':['volume hiring','sourcing','screening'],'sourcing':['sourcing'],'screening':['screening'],'training':['sales training','training ops','facilitation'],'onboard':['onboarding'],'lms':['LMS'],'payroll':['payroll inputs'],'hrms':['HRMS'],'employee relations':['employee relations'],'engagement':['engagement'],'customer support':['client support'],'helpdesk':['helpdesk'],'ticket':['ticketing'],'renewal':['renewals','retention'],'upsell':['upsell'],'account manag':['retention','QBRs'],'seo':['SEO'],'google ads':['paid search'],'ppc':['paid search'],'analytics':['analytics'],'email market':['email','automation'],'a/b':['A/B testing'],'react':['React'],'node':['Node.js'],'sql':['SQL'],'network':['networking'],'hospitality':['hospitality','guest care'],'booking':['bookings'],'p&l':['P&L'],'revenue strateg':['revenue strategy'],'go-to-market':['GTM'],'team lead':['team lead','sales management'],'forecast':['forecasting'],'enterprise':['enterprise sales'],'abm':['ABM'],'dashboard':['dashboards'],'incentive':['incentives']};
+function cvMatch(){const t=$('#cvText').value.toLowerCase(),out=$('#cvOut');
+  if(t.trim().length<30){out.innerHTML='<p class="muted" style="font-size:.88rem">Add a few lines about your experience and skills to see matches.</p>';return}
+  const found=new Set();Object.entries(SKILLS).forEach(([k,v])=>{if(t.includes(k))v.forEach(x=>found.add(x))});
+  const ym=t.match(/(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)/),yrs=ym?parseFloat(ym[1]):null;
+  const band=yrs==null?null:yrs<2?0:yrs<5?1:yrs<10?2:3,night=/night shift|us shift|uk shift|us market|north america/.test(t);
+  const res=jobs.map(j=>{const hits=j.tags.filter(x=>found.has(x));let s=hits.length/j.tags.length*70;
+    if(t.includes(j.title.toLowerCase()))s+=10;if(band!=null)s+=Math.max(0,20-Math.abs(j.expBand-band)*12);if(night&&/US|UK/.test(j.shift))s+=8;
+    return{j,hits,s:Math.min(98,Math.round(s))}}).filter(r=>r.hits.length).sort((a,b)=>b.s-a.s).slice(0,4);
+  out.innerHTML=`<span class="eyebrow">Recognised ${found.size} skill${found.size===1?'':'s'}${yrs!=null?` · ${yrs} yrs experience`:''}${night?' · open to US/UK shift':''}</span>`+
+   (res.length?res.map(({j,hits,s})=>`<div class="match-row"><b>${esc(j.title)}<br>${hits.map(h=>`<span class="hit">${esc(h)}</span>`).join('')}</b><span class="score">${s}% fit</span><button class="btn btn-ink btn-sm" type="button" data-open="${j.id}">View</button></div>`).join('')
+    :'<p class="muted" style="font-size:.88rem">No strong matches yet. Add the tools and skills you use, or take the 30-second quiz below.</p>')+
+   '<p class="muted" style="font-size:.78rem">Matching runs in your browser. A recruiter still reviews every application.</p>';}
+let cvT;$('#cvText').addEventListener('input',()=>{clearTimeout(cvT);cvT=setTimeout(cvMatch,250)});
+$('#cvSample').onclick=()=>{$('#cvText').value=SAMPLE_CV;cvMatch()};
+$('#cvFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('#cvText').value=String(r.result).slice(0,8000);cvMatch()};r.readAsText(f)};
+
+/* ---------- JOB ALERTS ---------- */
+let alerts=[{label:'Lead Generation · Bengaluru',email:'priya.r@example.com',freq:'Instantly',example:true}];
+function openAlert(fixed){const m=$('#modal'),label=fixed||activeList().map(x=>x[2]).join(' · ')||'All new roles';
+  m.innerHTML=`<div class="modal-head"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><div><span class="eyebrow">Job alert</span><h3 style="font-size:1.35rem;margin-top:4px">Get new roles like these by email</h3></div><button class="x" type="button" id="mClose" aria-label="Close">${I.x}</button></div></div>
+   <form class="modal-body" id="alForm" novalidate><div class="panel" style="padding:14px;background:var(--surface-2);border:0;gap:4px"><span class="eyebrow">Your search</span><b>${esc(label)}</b></div>
+    <div class="grid2"><div class="field"><label for="alMail">Email</label><input id="alMail" type="email" value="${me.example?'':esc(me.email||'')}" autocomplete="email"></div><div class="field"><label for="alFreq">Frequency</label><select id="alFreq"><option>Instantly</option><option>Daily digest</option><option>Weekly digest</option></select></div></div>
+    <label class="consent"><input type="checkbox" id="alOk"> Email me new roles that match this search. I can stop this alert from any email or from My applications.</label>
+    <p class="err" id="alErr" hidden></p><div><button class="btn btn-gold" type="submit">Create alert</button></div></form>`;
+  $('#modalScrim').hidden=false;$('#mClose').onclick=()=>$('#modalScrim').hidden=true;
+  $('#alForm').onsubmit=e=>{e.preventDefault();const em=$('#alMail').value.trim(),er=$('#alErr');
+    if(!/^\S+@\S+\.\S+$/.test(em)){er.hidden=false;er.textContent='Add a valid email address for the alert.';return}
+    if(!$('#alOk').checked){er.hidden=false;er.textContent='Tick the box to confirm you want these emails.';return}
+    alerts.unshift({label,email:em,freq:$('#alFreq').value});renderAlerts();$('#modalScrim').hidden=true;toast('Alert created. Manage it in My applications.')}}
+function renderAlerts(){$('#alertList').innerHTML=`<div class="panel" style="margin-top:18px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><b>Job alerts</b><button class="btn btn-ghost btn-sm" type="button" data-go="careers">Create one from a search</button></div>${alerts.length?alerts.map((a,i)=>`<div class="match-row"><b>${esc(a.label)}<br><span class="muted" style="font-weight:500;font-size:.8rem">${esc(a.freq)} · ${esc(a.email)}${a.example?' · example':''}</span></b><button class="btn btn-ghost btn-sm" type="button" data-unal="${i}">Stop alert</button></div>`).join(''):'<p class="muted" style="font-size:.88rem">No alerts. Create one from any search on Find roles.</p>'}</div>`}
+
+/* ---------- COMMUNITY ---------- */
+const cInt=new Set(['Lead Generation']);
+function renderInt(){$('#cInterests').innerHTML=depts.map(d=>`<button type="button" class="chip" data-i="${esc(d)}" aria-pressed="${cInt.has(d)}">${esc(d)}</button>`).join('')}
+$('#cInterests').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;const d=b.dataset.i;cInt.has(d)?cInt.delete(d):cInt.add(d);renderInt()});
+$('#community').onsubmit=e=>{e.preventDefault();const err=$('#cErr'),n=$('#cName').value.trim(),m=$('#cEmail').value.trim();
+  if(!n||!/^\S+@\S+\.\S+$/.test(m)){err.hidden=false;err.textContent='Add your name and a valid email address.';return}
+  if(!cInt.size){err.hidden=false;err.textContent='Pick at least one area you want to hear about.';return}
+  if(!$('#cConsent').checked){err.hidden=false;err.textContent='Tick the consent box so we can email you about new roles.';return}
+  err.hidden=true;const j=jobs.find(x=>cInt.has(x.dept));
+  cands.unshift({id:'c'+Date.now(),name:n,job:j.id,status:'Talent pool',source:'Talent community',consent:true,days:0,exp:0,city:'—',fresh:true,pool:true});
+  renderRecruiter();toast(`Welcome to the bench, ${n.split(' ')[0]}. We'll email you when a ${[...cInt][0]} role opens.`);e.target.reset();};
+
+/* ---------- MY APPLICATIONS ---------- */
+let me={name:'Priya Raman',line:'priya.r@example.com · Bengaluru · 1.5 yrs experience',example:true};
+let myApps=[{job:'CG-2026-1103',status:'Interview',days:9,appId:'APP-418203'},{job:'CG-2026-1101',status:'Screening',days:9,appId:'APP-418203'}];
+const STAGES=['Applied','Screening','Assessment','Interview','Offer'];
+function renderApps(){
+  $('#meName').textContent=me.name;$('#meLine').textContent=me.line;
+  document.querySelector('#v-applications .eyebrow').textContent=me.example?'Candidate profile · example':'Candidate profile';
+  $('#myCount').textContent=myApps.length;
+  $('#appList').innerHTML=myApps.map((a,i)=>{const j=byId(a.job),ix=STAGES.indexOf(a.status);
+    const next={Applied:'A recruiter will review your profile within 3 working days.',Screening:'Your profile is with the recruiter. Expect a call or an assessment link.',Assessment:'Complete the assessment sent to your email.',Interview:'Interview with the hiring manager is being scheduled. Check your email for a slot.',Offer:'Your offer is ready. Review and respond in your email.',Withdrawn:'You withdrew this application. You can apply again any time.'}[a.status];
+    return `<article class="app"><div class="app-top"><div style="display:grid;gap:4px"><span class="mono muted">${a.appId} · ${j.id}</span><b style="font-family:var(--f-display);font-size:1.15rem">${esc(j.title)}</b><span class="muted" style="font-size:.85rem">${esc(j.ent)} · ${esc(j.loc)} · applied ${a.days?a.days+' days ago':'today'}</span></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="st st-${a.status.replace(/\s/g,'')}">${a.status}</span>${a.status!=='Withdrawn'&&a.status!=='Offer'?`<button class="btn btn-ghost btn-sm" type="button" data-wd="${i}">${a.confirm?'Confirm withdraw':'Withdraw'}</button>`:''}</div></div>
+     <div class="track">${STAGES.map((s,i)=>`<div class="${i<ix?'done':i===ix?'now':''}"><i></i><span>${s}</span></div>`).join('')}</div>
+     <p class="muted" style="font-size:.88rem"><b style="color:var(--ink)">Next:</b> ${next}</p></article>`}).join('');
+}
+
+/* ---------- RECRUITER ---------- */
+const STATUS=['Applied','Screening','Assessment','Interview','Offer','Hired','Not selected','Withdrawn'];
+$('#meConsent').onchange=e=>{cands.filter(c=>c.fresh&&!c.pool).forEach(c=>c.consent=e.target.checked);renderRecruiter();
+  toast(e.target.checked?'You will get emails about new roles':'New-role emails stopped. Application updates continue.')};
+const seed=[
+ ['Arjun Menon','CG-2026-1103','Interview','Careers portal',1,4,1,'Bengaluru'],['Sneha Kulkarni','CG-2026-1103','Hired','Employee referral',1,38,0.5,'Bengaluru'],
+ ['Rahul Verma','CG-2026-1103','Not selected','Naukri',1,52,0,'Hosur'],['Fathima Begum','CG-2026-1103','Not selected','Careers portal',1,47,1,'Bengaluru'],
+ ['Karthik S','CG-2026-1103','Not selected','LinkedIn',0,61,1.5,'Chennai'],['Divya Nair','CG-2026-1103','Screening','Talent community',1,2,0,'Bengaluru'],
+ ['Mohammed Irfan','CG-2026-1103','Applied','Careers portal',1,1,0.5,'Bengaluru'],['Ananya Rao','CG-2026-1103','Assessment','Campus',1,6,0,'Mysuru'],
+ ['Vikram Shetty','CG-2026-1101','Offer','LinkedIn',1,15,2.5,'Bengaluru'],['Pooja Hegde','CG-2026-1101','Interview','Employee referral',0,10,2,'Bengaluru'],
+ ['Nikhil Jain','CG-2026-1101','Not selected','Naukri',1,44,1,'Pune'],['Sana Sheikh','CG-2026-1101','Applied','Careers portal',1,1,1.5,'Bengaluru'],
+ ['Rohan Das','CG-2026-1104','Screening','LinkedIn',1,3,3,'Kolkata'],['Meera Iyer','CG-2026-1104','Not selected','Careers portal',1,40,2.5,'Bengaluru'],
+ ['Aditya Kumar','CG-2026-1105','Interview','LinkedIn',0,8,6,'Bengaluru'],['Lakshmi Prasad','CG-2026-1105','Assessment','Employee referral',1,5,5,'Hyderabad'],
+ ['Suresh Babu','CG-2026-1106','Screening','LinkedIn',0,12,18,'Singapore'],['Kavya Reddy','CG-2026-1108','Hired','Naukri',1,33,3,'Bengaluru'],
+ ['Imran Khan','CG-2026-1108','Interview','Careers portal',1,7,2,'Bengaluru'],['Deepa Joseph','CG-2026-1111','Applied','Campus',1,2,0,'Mangaluru'],
+ ['Harish Gowda','CG-2026-1110','Screening','Careers portal',0,4,1.5,'Bengaluru'],['Nandini B','CG-2026-1113','Assessment','Naukri',1,6,1,'Bengaluru'],
+ ['Tanvir Ahmed','CG-2026-1113','Not selected','Careers portal',1,50,2,'Bengaluru'],['Ritika Sharma','CG-2026-1116','Interview','LinkedIn',1,9,2,'Delhi'],
+ ['Ganesh Pillai','CG-2026-1117','Hired','Campus',1,29,0,'Bengaluru'],['Shruti Patil','CG-2026-1117','Applied','Careers portal',1,0,0,'Bengaluru'],
+ ['Varun Krishnan','CG-2026-1118','Assessment','LinkedIn',0,5,4,'Bengaluru'],['Aisha Al Mansoori','CG-2026-1114','Interview','Careers portal',1,6,2,'Dubai'],
+ ['Manoj Thomas','CG-2026-1120','Screening','Employee referral',1,3,3,'Bengaluru'],['Bhavana M','CG-2026-1112','Applied','Talent community',1,1,2.5,'Bengaluru']
+];
+let cands=seed.map((r,i)=>({id:'s'+i,name:r[0],job:r[1],status:r[2],source:r[3],consent:!!r[4],days:r[5],exp:r[6],city:r[7]}));
+opts($('#rRole'),'All roles',[]);$('#rRole').innerHTML='<option value="">All roles</option>'+jobs.map(j=>`<option value="${j.id}">${esc(j.title)}</option>`).join('');
+$('#rStatus').innerHTML='<option value="">Any status</option>'+[...STATUS,'Talent pool','Referred'].map(s=>`<option>${s}</option>`).join('');
+['rq','rRole','rStatus','rConsent'].forEach(id=>$('#'+id).addEventListener('input',renderTable));
+
+function renderRecruiter(){
+  const apps=cands.filter(c=>!c.pool);
+  const reached=s=>apps.filter(c=>{const i=STATUS.indexOf(c.status);return ['Not selected','Withdrawn'].includes(c.status)?false:i>=STATUS.indexOf(s)}).length;
+  const opted=cands.filter(c=>c.consent).length;
+  const last7=apps.filter(c=>c.days<=7).length;
+  const hired=apps.filter(c=>c.status==='Hired').length;
+  const sla=apps.filter(c=>['Applied','Screening'].includes(c.status)&&c.days>3).length;
+  $('#kpis').innerHTML=[[apps.length,'Applications in pipeline'],[last7,'New in the last 7 days'],[reached('Interview'),'At interview or beyond'],[hired,'Hired'],[opted,'Opted in to campaigns'],[sla,'Waiting over 3 days']]
+   .map(([v,l])=>`<div class="kpi"><b>${v}</b><span>${l}</span></div>`).join('');
+  const fun=STATUS.slice(0,6).map(s=>[s,s==='Applied'?apps.length:reached(s)]);
+  const fmax=Math.max(1,...fun.map(f=>f[1]));
+  $('#funnel').innerHTML=fun.map(([s,v])=>`<div class="bar-row"><span>${s}</span><div class="trk"><div class="fill ${s==='Hired'?'g':''}" style="width:${v/fmax*100}%"></div></div><b>${v}</b></div>`).join('');
+  const src={};cands.forEach(c=>src[c.source]=(src[c.source]||0)+1);
+  const se=Object.entries(src).sort((a,b)=>b[1]-a[1]),smax=Math.max(1,...se.map(s=>s[1]));
+  $('#sources').innerHTML=se.map(([s,v])=>`<div class="bar-row"><span>${s}</span><div class="trk"><div class="fill ${s==='Talent community'?'g':''}" style="width:${v/smax*100}%"></div></div><b>${v}</b></div>`).join('');
+  $('#reqs').innerHTML=[...jobs].sort((a,b)=>b.seats-a.seats).slice(0,8).map(j=>{const mine=apps.filter(c=>c.job===j.id);
+    const h=mine.filter(c=>c.status==='Hired').length,o=mine.filter(c=>c.status==='Offer').length,act=mine.filter(c=>!['Hired','Offer','Not selected','Withdrawn'].includes(c.status)).length;
+    const hw=Math.min(h,j.seats)/j.seats*100,ow=Math.min(o,Math.max(0,j.seats-h))/j.seats*100;
+    return `<div class="req-row"><span style="min-width:0"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(j.title)}</b><span class="muted" style="font-size:.76rem">${act} in pipeline</span></span><div class="req-trk" role="img" aria-label="${h} hired and ${o} offers out of ${j.seats} seats"><i class="h" style="width:${hw}%"></i><i class="p" style="width:${ow}%"></i></div><b class="num">${h+o}/${j.seats}</b></div>`}).join('');
+  renderTable();renderCampaign();
+}
+function renderTable(){
+  const q=$('#rq').value.trim().toLowerCase(),r=$('#rRole').value,s=$('#rStatus').value,c=$('#rConsent').value;
+  const rows=cands.filter(x=>{const j=byId(x.job);return(!q||[x.name,x.city,j.title,...j.tags].join(' ').toLowerCase().includes(q))&&(!r||x.job===r)&&(!s||x.status===s)&&(c===''||String(+x.consent)===c)});
+  $('#rBody').innerHTML=rows.map(x=>{const j=byId(x.job);
+    return `<tr${x.fresh?' style="background:var(--gold-soft)"':''}><td class="who"><b>${esc(x.name)}${x.fresh?' <span class="tag hot">New</span>':''}</b><span>${esc(x.city)}</span></td>
+     <td>${x.pool?'<span class="muted">Interested in</span> ':''}${esc(j.title)}<br><span class="mono muted">${j.id}</span></td>
+     <td class="num">${x.exp} yrs</td><td>${esc(x.source)}</td><td class="num">${x.days?x.days+'d ago':'Today'}</td>
+     <td class="${x.consent?'yes':'no'}">${x.consent?'Yes':'No'}</td>
+     <td>${x.pool?`<span class="st st-Applied">${esc(x.status)}</span>`:`<select data-cid="${x.id}" aria-label="Change status for ${esc(x.name)}">${STATUS.map(o=>`<option ${o===x.status?'selected':''}>${o}</option>`).join('')}</select>${['Applied','Screening'].includes(x.status)&&x.days>3?'<span class="sla" title="Waiting more than 3 days">SLA</span>':''}`}</td></tr>`}).join('')||'<tr><td colspan="7" class="muted" style="text-align:center;padding:24px">No candidates match these filters.</td></tr>';
+  $('#rFoot').textContent=`Showing ${rows.length} of ${cands.length} records. Change a status and the funnel, requisition tracker and candidate view update. SLA marks anyone waiting over 3 days in Applied or Screening.`;
+}
+$('#rBody').addEventListener('change',e=>{const id=e.target.dataset.cid;if(!id)return;const c=cands.find(x=>x.id===id);c.status=e.target.value;
+  const mine=myApps.find(a=>a.job===c.job&&c.fresh);if(mine&&STAGES.includes(c.status)){mine.status=c.status;renderApps()}
+  renderRecruiter();toast(`${c.name} moved to ${c.status}`)});
+
+/* campaign */
+$('#cmpDept').innerHTML=depts.map(d=>`<option ${d==='Lead Generation'?'selected':''}>${esc(d)}</option>`).join('');
+function fillRoles(){const d=$('#cmpDept').value;$('#cmpRole').innerHTML=jobs.filter(j=>j.dept===d).map(j=>`<option value="${j.id}">${esc(j.title)}</option>`).join('')}
+fillRoles();
+$('#cmpDept').onchange=()=>{fillRoles();renderCampaign()};$('#cmpRole').onchange=renderCampaign;$('#cmpSilver').onchange=renderCampaign;
+function audience(){const d=$('#cmpDept').value,silver=$('#cmpSilver').checked;
+  const inDept=cands.filter(c=>byId(c.job).dept===d&&!['Hired','Offer'].includes(c.status));
+  const elig=inDept.filter(c=>silver||c.status!=='Not selected');
+  return{all:inDept.length,ok:elig.filter(c=>c.consent),excluded:elig.filter(c=>!c.consent).length}}
+function renderCampaign(){
+  const a=audience(),j=byId($('#cmpRole').value);
+  $('#cmpOut').innerHTML=`<div><b>${a.all}</b><span>Past applicants in this department</span></div><div><b>${a.ok.length}</b><span>Opted in · will receive</span></div><div><b>${a.excluded}</b><span>No opt-in · excluded</span></div>`;
+  $('#cmpSend').disabled=!a.ok.length;
+  if(!j)return;
+  $('#mailSub').textContent=`New ${j.title} openings at ${j.ent}`;
+  $('#mailBody').innerHTML=`<p>Hi {{first_name}},</p><p>You applied for a ${esc(j.dept)} role with us earlier. We're now hiring <b>${j.seats} ${esc(j.title)}${j.seats>1?'s':''}</b> in ${esc(j.loc)} (${esc(j.shift)}).</p><p>Your profile is already saved. Re-apply in one click and we'll fast-track your screening.</p><p><a href="#careers">Re-apply with my saved profile →</a></p><p class="muted" style="font-size:.82rem">Champions Group Recruitment Team</p>`;
+}
+$('#cmpSend').onclick=()=>{const a=audience();toast(`Demo: campaign queued for ${a.ok.length} opted-in candidates. ${a.excluded} without opt-in were skipped.`)};
+
+/* maths */
+['m1','m2','m3','m4','m5'].forEach(id=>$('#'+id).addEventListener('input',renderMath));
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+function renderMath(){
+  const need=+$('#m1').value||0,pool=+$('#m2').value||0,rr=(+$('#m3').value||0)/100,cv=(+$('#m4').value||0)/100,cost=+$('#m5').value||0;
+  const re=Math.round(pool*rr),hires=Math.floor(re*cv),cover=Math.min(hires,need),saved=cover*cost;
+  $('#mathOut').innerHTML=`<div><b>${re}</b><span>Re-applications from the pool</span></div><div><b>${cover} of ${need}</b><span>Seats filled without fresh sourcing</span></div><div><b>${inr(saved)}</b><span>Sourcing cost avoided</span></div>`;
+  $('#mathLine').textContent=`${pool} × ${Math.round(rr*100)}% = ${re} re-applications → ${re} × ${Math.round(cv*100)}% = ${hires} hires → min(${hires}, ${need}) × ${inr(cost)} = ${inr(saved)}`;
+}
+
+/* blueprint table */
+const cmpRows=[
+ ['Job listings','Static list','Search and filters','Search, department chips, shift, work mode, company, experience, bulk-hiring flag'],
+ ['Applying','One form per role','Standard form','One profile, apply to several roles in one submission'],
+ ['Finding the right role','—','—','30-second arena-match quiz with fit scores'],
+ ['Candidate visibility','—','—','Live stage tracker per application'],
+ ['Candidate data','Emails in an inbox','Searchable candidate database','Database with source, consent and full stage history'],
+ ['Recruiter workflow','Manual','Status updates','Status changes, funnel, source mix, filters by consent'],
+ ['Sales-role screening','—','—','Optional 60-second pitch and "proudest number" field'],
+ ['Consent','—','Email consent','Two separate consents; campaign opt-in unticked by default; unsubscribe on every email'],
+ ['Re-hiring','Re-source from scratch','Email past applicants','Targeted bench campaigns with automatic exclusion of non-opted-in people'],
+ ['CV matching','—','—','Paste a CV, get ranked roles with recognised skills'],
+ ['Job alerts','—','—','Alert from any search, with its own consent and a stop button'],
+ ['Sharing & referrals','—','—','Direct link to each job; employee referral with ID'],
+ ['Trust & safety','—','—','Fraud alert, AI-use note, data-retention FAQ'],
+ ['Recruiter SLA','—','—','Flags applications waiting over 3 days; seat tracker per requisition'],
+ ['Reporting','—','Applications and hiring','Funnel, sources, pool value calculator; ATS hooks in Phase 3']];
+$('#cmpBody').innerHTML=cmpRows.map(r=>`<tr><td>${r[0]}</td><td class="${r[1]==='—'?'dash':''}">${r[1]}</td><td class="${r[2]==='—'?'dash':''}">${r[2]}</td><td class="ours">${r[3]}</td></tr>`).join('');
+
+/* ---------- ROUTING ---------- */
+let currentView='careers';
+function go(v){currentView=v;['careers','applications','recruiter','blueprint','job'].forEach(x=>{$('#v-'+x).hidden=x!==v});
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.view===(v==='job'?'careers':v)));
+  renderTray();window.scrollTo({top:0});try{history.replaceState(null,'','#'+v)}catch(e){}}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.view));
+
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,3200)}
+
+renderAreas();renderStages();renderAll();renderInt();renderApps();renderAlerts();renderRecruiter();renderMath();
+const h=location.hash.slice(1);if(byId(h)){go('careers');openJob(h)}else go(['careers','applications','recruiter','blueprint'].includes(h)?h:'careers');
+</script>
+
+</body></html>

@@ -1,0 +1,31 @@
+<!-- ========== MY APPLICATIONS ========== -->
+<div class="view" id="v-applications" hidden>
+  <section class="block wrap">
+    <div id="meSignin" class="panel" style="max-width:560px">
+      <div><span class="eyebrow">My applications</span><h2 style="margin-top:6px">Sign in with your email</h2>
+        <p class="muted" style="margin-top:6px;font-size:.92rem">We'll email you a 6-digit code. No password needed.</p></div>
+      <form id="otpForm" novalidate style="display:grid;gap:12px">
+        <div class="field"><label for="otpEmail">Email you applied with</label><input id="otpEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        <div class="field" id="otpCodeRow" hidden><label for="otpCode">6-digit code</label><input id="otpCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6"></div>
+        <p class="err" id="otpErr" hidden></p>
+        <div><button class="btn btn-gold" type="submit" id="otpBtn">Email me a code</button></div>
+        <p class="note muted" id="otpDev" hidden></p>
+      </form>
+    </div>
+    <div id="meArea" hidden>
+      <div class="sec-head">
+        <div><span class="eyebrow">Candidate profile</span><h2 style="margin-top:6px" id="meName"></h2><p class="muted" style="margin-top:4px" id="meLine"></p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-ink" type="button" data-go="careers">Browse more roles</button><button class="btn btn-ghost" type="button" id="signOut">Sign out</button></div>
+      </div>
+      <div class="apps" id="appList"></div>
+      <div id="alertList"></div>
+      <div class="panel" style="margin-top:18px">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+          <div><b>Communication preferences</b><p class="muted" style="font-size:.88rem">Application updates are always sent. Recruitment campaign emails are optional.</p></div>
+          <label class="consent" style="align-items:center"><input type="checkbox" id="meConsent"> Email me about new roles in the departments I applied to</label>
+        </div>
+        <label class="consent"><input type="checkbox" id="meHuman"> I'd like a human-only review of my applications (no AI-assisted matching)</label>
+      </div>
+    </div>
+  </section>
+</div>

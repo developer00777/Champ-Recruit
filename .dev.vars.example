@@ -1,0 +1,13 @@
+# Local service URLs (docker compose overrides these with service names via docker/overrides.env)
+UPSTASH_REDIS_REST_URL=http://localhost:8079
+MOCK_CHANNELS_URL=http://localhost:9000
+# Copy to .dev.vars for local development. Never commit .dev.vars.
+UPSTASH_REDIS_REST_TOKEN=local
+# Claude API key — AI features return a clear "not configured" error without it.
+ANTHROPIC_API_KEY=
+# 32-byte key, base64. Generate: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+TOKEN_ENC_KEY=
+# Console login when Cloudflare Access is not configured (local only).
+DEV_AUTH_EMAIL=recruiter@championsmail.com
+# Shared secret used by the website webhooks/API key hashing.
+APP_SECRET=local-dev-secret

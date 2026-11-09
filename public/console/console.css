@@ -1,0 +1,56 @@
+/* Recruiter console additions on top of the portal's design tokens (portal.css). */
+a.tab{text-decoration:none}
+.tab[aria-current="page"]{color:var(--navy-ink);box-shadow:inset 0 -2px 0 var(--hero-accent)}
+.who-am-i{font-size:.8rem;white-space:nowrap}
+.console-main{padding-block:28px 80px;display:grid;gap:22px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+.stack{display:grid;gap:12px}
+.ed{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:18px;align-items:start}
+@media (max-width:960px){.ed{grid-template-columns:1fr}.charts{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:720px){.grid3,.grid2{grid-template-columns:1fr}}
+.field textarea{resize:vertical;min-height:84px;font-family:inherit}
+.field .hint{font-size:.75rem;color:var(--muted)}
+.studio{position:sticky;top:78px;background:var(--surface-2);border-color:transparent}
+.studio textarea{min-height:110px}
+.ai-out{display:grid;gap:10px}
+.sugg{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:6px;font-size:.86rem}
+.sugg del{color:var(--muted)}
+.sugg ins{text-decoration:none;font-weight:600}
+.sugg .why{font-size:.78rem;color:var(--muted)}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center}
+.scores div{background:var(--surface);border-radius:8px;padding:8px 4px}
+.scores b{font-family:var(--f-display);font-size:1.2rem;display:block}
+.scores span{font-size:.68rem;color:var(--muted)}
+.oq{border-left:3px solid var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.86rem}
+.oq ul{margin:6px 0 0;padding-left:18px}
+table.t{width:100%;border-collapse:collapse;font-size:.86rem}
+table.t th{text-align:left;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.t td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr:last-child td{border-bottom:0}
+table.t a{color:inherit}
+table.t select{border:1px solid var(--line);border-radius:7px;padding:5px 7px;background:var(--surface)}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.badge.live{background:var(--ok-soft);color:var(--ok)}
+.badge.queued,.badge.posting,.badge.scheduled,.badge.closing{background:var(--info-soft);color:var(--info)}
+.badge.failed,.badge.needs_reauth,.badge.expired,.badge.error{background:var(--bad-soft);color:var(--bad)}
+.badge.stale,.badge.expiring,.badge.pending_approval,.badge.approved{background:var(--warn-soft);color:var(--warn)}
+.badge.open,.badge.active{background:var(--ok-soft);color:var(--ok)}
+.badge.draft{background:var(--surface-2);color:var(--muted)}
+.chan{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.chan.off{opacity:.6}
+.chan textarea{min-height:150px;font-size:.88rem}
+.li-preview{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff;font-size:.86rem;white-space:pre-wrap;max-height:260px;overflow:auto}
+.li-preview .tags{color:#0a66c2;margin-top:6px}
+.li-card{margin-top:8px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.li-card div{padding:8px 10px;background:var(--surface-2);font-size:.8rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--surface);display:grid;gap:8px;align-content:start}
+.card h4{font-size:1rem}
+.err-box{background:var(--bad-soft);color:var(--bad);border-radius:10px;padding:10px 12px;font-size:.86rem}
+.ok-box{background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-size:.86rem}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.mock-flag{font-size:.72rem;font-weight:700;color:var(--warn);background:var(--warn-soft);border-radius:5px;padding:1px 6px}

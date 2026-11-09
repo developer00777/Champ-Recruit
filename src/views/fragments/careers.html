@@ -1,0 +1,174 @@
+<!-- ========== CAREERS ========== -->
+<div class="view" id="v-careers">
+  <section class="hero">
+    <div class="wrap">
+      <div style="display:grid;gap:14px">
+        <span class="eyebrow" style="color:var(--hero-accent)">Careers at Champions Group</span>
+        <h1>Learn. Earn. <em>Lead.</em></h1>
+        <p class="hero-sub">Build a career that keeps rising, with Champions Group.</p>
+        <p class="lede">Join a global group where ambition is rewarded and learning never stops. Your next role could be in any of our 20 businesses. Apply once, track every step, and be first to hear when your kind of role opens.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"><button class="btn btn-gold" type="button" data-scroll="openings">Search open roles</button><button class="btn btn-line" type="button" data-scroll="community">Join our talent community</button></div>
+      </div>
+      <form class="search ey" id="searchForm" role="search">
+        <label for="q" class="kw"><span>Search by keyword and/or location</span><input id="q" placeholder="e.g. lead generation Bengaluru, or CG-2026-1103" autocomplete="off"></label>
+        <button class="btn btn-ghost" type="button" id="moreOpt" aria-expanded="false" aria-controls="moreBox">More options</button>
+        <button class="btn btn-gold" type="submit">Search</button>
+        <div class="more" id="moreBox" hidden>
+          <label for="fDept"><span>Department</span><select id="fDept"></select></label>
+          <label for="fLoc"><span>Location</span><select id="fLoc"></select></label>
+          <label for="fShift"><span>Shift</span><select id="fShift"></select></label>
+          <button class="btn btn-ghost btn-sm" type="button" id="clearS">Clear</button>
+        </div>
+      </form>
+      <p class="tip">Tip: put a phrase in quotes for an exact match, like <code>"lead generation"</code>. Short forms work too: <code>BD</code>, <code>KAM</code>, <code>CRO</code>, <code>TA</code>.</p>
+      <div class="chips" id="arenaChips" aria-label="Quick filter by department"></div>
+      <div class="scoreboard">
+        <div><b id="sbRoles">0</b><span>Open roles</span></div>
+        <div><b id="sbSeats">0</b><span>Positions to fill</span></div>
+        <div><b id="sbEnt">0</b><span>Group companies hiring</span></div>
+        <div><b id="sbLoc">0</b><span>Hiring locations</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="fraud" role="note"><div class="wrap"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17v.01"/></svg><p><b>Recruitment fraud alert.</b> Champions Group never charges a fee for applications, interviews, training or offers, and never asks for payment during hiring. Every genuine role is listed here with a requisition ID starting CG-.</p></div></div>
+
+  <section class="block wrap" id="areas">
+    <div class="sec-head"><div><span class="eyebrow">Career areas</span><h2 style="margin-top:6px">Whatever you want to win at, there's a seat for you.</h2></div><p class="muted">Pick an area to see its open roles. Lead generation and sales have the most seats open right now.</p></div>
+    <div class="areas" id="areaGrid"></div>
+  </section>
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Career stage</span><h2 style="margin-top:6px">Wherever you are in your career, start here.</h2></div></div>
+    <div class="stages" id="stageGrid"></div>
+  </section>
+
+  <section class="block wrap" id="openings">
+    <div class="layout">
+      <aside class="filters" aria-label="Refine results">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>Refine <span class="muted num" id="fCount" style="font-weight:500"></span></b><button class="btn btn-ghost btn-sm" id="clearF" type="button">Clear all</button></div>
+        <fieldset id="fsMode"><legend class="eyebrow">Work mode</legend></fieldset>
+        <fieldset id="fsExp"><legend class="eyebrow">Experience</legend></fieldset>
+        <fieldset id="fsEnt"><legend class="eyebrow">Company</legend></fieldset>
+        <fieldset><legend class="eyebrow">Other</legend>
+          <label class="check"><input type="checkbox" id="fInc"> Incentive-eligible roles</label>
+          <label class="check"><input type="checkbox" id="fHot"> Bulk hiring (5+ seats)</label>
+          <label class="check"><input type="checkbox" id="fSaved"> Saved roles only</label>
+        </fieldset>
+      </aside>
+      <div style="min-width:0">
+        <div class="results-bar">
+          <p><b class="num" id="resCount">0</b> <span class="muted">roles match</span></p>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" type="button" data-alert>Alert me about these roles</button>
+            <label class="muted" style="font-size:.85rem;display:flex;gap:8px;align-items:center">Sort
+              <select id="sort"><option value="rel">Best match</option><option value="new">Newest first</option><option value="seats">Most positions</option><option value="az">Title A–Z</option></select>
+            </label>
+          </div>
+        </div>
+        <div class="active-f" id="activeF" hidden></div>
+        <div class="jobs" id="jobList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0" id="cvmatch">
+    <div class="panel">
+      <div class="sec-head" style="margin:0"><div><span class="eyebrow">Match my CV</span><h3 style="margin-top:6px">Paste your CV. See the roles it fits.</h3></div><button class="btn btn-ghost btn-sm" type="button" id="cvSample">Try a sample CV</button></div>
+      <div class="cvm">
+        <div class="field"><label for="cvText">CV text or LinkedIn summary</label><textarea id="cvText" placeholder="Paste your CV here, or upload a .txt file below. In this demo nothing leaves your browser."></textarea>
+          <input type="file" id="cvFile" accept=".txt,text/plain" aria-label="Upload CV as a text file" style="font-size:.84rem;max-width:100%"></div>
+        <div class="match" id="cvOut"><p class="muted" style="font-size:.88rem">Matches appear here with the skills we recognised, so candidates can see why a role fits.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="duo">
+      <div class="panel" id="quiz">
+        <div><span class="eyebrow">Not sure where you fit?</span><h3 style="margin-top:6px">Find your arena in 30 seconds</h3></div>
+        <div class="q"><p>What energises you most?</p><div class="opts" data-q="0">
+          <button type="button" class="opt" data-v="hunt">Closing a deal</button>
+          <button type="button" class="opt" data-v="people">Helping people grow</button>
+          <button type="button" class="opt" data-v="data">Finding the pattern in data</button>
+          <button type="button" class="opt" data-v="build">Building systems</button></div></div>
+        <div class="q"><p>How much experience do you have?</p><div class="opts" data-q="1">
+          <button type="button" class="opt" data-v="0">Fresher – 2 yrs</button>
+          <button type="button" class="opt" data-v="1">2 – 5 yrs</button>
+          <button type="button" class="opt" data-v="2">5 – 10 yrs</button>
+          <button type="button" class="opt" data-v="3">10+ yrs</button></div></div>
+        <div class="q"><p>Are you open to a US or UK night shift?</p><div class="opts" data-q="2">
+          <button type="button" class="opt" data-v="y">Yes</button>
+          <button type="button" class="opt" data-v="n">Day shift only</button></div></div>
+        <div class="match" id="matchOut"><p class="muted" style="font-size:.88rem">Answer the three questions to see your best-fit roles.</p></div>
+      </div>
+
+      <form class="panel dark" id="community" novalidate>
+        <div><span class="eyebrow" style="color:var(--hero-accent)">Talent community</span><h3 style="margin-top:6px">Not ready to apply? Stay on our bench.</h3>
+          <p class="muted" style="margin-top:8px;font-size:.92rem">Tell us what you're interested in. We'll email you only when a matching role opens.</p></div>
+        <div class="grid2">
+          <div class="field"><label for="cName">Full name</label><input id="cName" autocomplete="name" placeholder="Your name"></div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+        </div>
+        <div class="field"><span class="lbl">Roles you'd like to hear about</span><div class="chips" id="cInterests"></div></div>
+        <div class="field"><label for="cFreq">How often</label><select id="cFreq"><option>Only when a matching role opens</option><option>Weekly digest</option><option>Monthly digest</option></select></div>
+        <label class="consent"><input type="checkbox" id="cConsent"> I agree to receive recruitment emails from Champions Group about roles matching my interests. I can unsubscribe at any time from any email.</label>
+        <p class="err" id="cErr" hidden></p>
+        <button class="btn btn-gold" type="submit">Join the talent community</button>
+        <p class="note">Separate from applying: joining this list is optional and never required to apply for a role.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Life at Champions</span><h2 style="margin-top:6px">Finish every year better than you started it.</h2></div><p class="muted">Six things every Champion can count on. <span class="flag">Draft copy · confirm benefit details with HR</span></p></div>
+    <div class="pillars">
+      <div><em>Earn</em><b>Paid for what you deliver</b><p>Incentive plans on sales and lead-generation roles, with payouts tied to clear, published targets.</p></div>
+      <div><em>Learn</em><b>Trained from week one</b><p>Structured onboarding and ongoing sales training from our in-house Learning &amp; Development team.</p></div>
+      <div><em>Lead</em><b>Leadership comes early</b><p>Strong performers lead pods and floors early, and open leaderboards let results speak first.</p></div>
+      <div><em>Move</em><b>Twenty businesses, one career</b><p>Grow across data, marketing, hospitality, real estate and more without leaving the group.</p></div>
+      <div><em>Belong</em><b>A team that celebrates</b><p>Team events, recognition and leadership retreats that bring every function together.</p></div>
+      <div><em>Give</em><b>Work that gives back</b><p>Through the Champions Education Trust, the group supports education in the communities around it.</p></div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="reach">
+      <div><span class="eyebrow" style="color:var(--hero-accent)">A global group</span><h2 style="margin-top:8px;font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:600">One group. Many arenas.</h2><p style="color:var(--navy-muted);margin-top:8px;font-size:.9rem">Winner of the Dun &amp; Bradstreet Singapore Business Eminence Award.</p></div>
+      <div><b>20</b><span>Businesses in the group</span></div>
+      <div><b>10</b><span>Sectors, from data to hospitality</span></div>
+      <div><b>7</b><span>Countries with offices</span></div>
+    </div>
+    <p class="muted" style="font-size:.76rem;margin-top:8px">Counts taken from the businesses and office locations listed on championsgroup.com, October 2026.</p>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">What happens after you apply</span><h2 style="margin-top:6px">A hiring process you can see</h2></div><p class="muted">Every application shows its live stage in <b>My applications</b>. No more wondering if anyone read your CV.</p></div>
+    <ol class="journey">
+      <li><b>Applied</b><span>Instant confirmation with your application ID.</span></li>
+      <li><b>Screening</b><span>A recruiter reviews your profile within 3 working days.</span></li>
+      <li><b>Assessment</b><span>Role-specific task: a mock cold call, a data sheet or a case.</span></li>
+      <li><b>Interview</b><span>Hiring-manager round, then a final round for senior roles.</span></li>
+      <li><b>Offer</b><span>Offer of appointment with full compensation annexure.</span></li>
+    </ol>
+    <div class="hire3">
+      <div class="panel"><span class="eyebrow">How we use AI in hiring</span><p style="font-size:.92rem">Tools may help sort applications and suggest role matches, like the CV match above. A recruiter reviews every application and makes every shortlisting and hiring decision. You can ask for a human-only review at any stage.</p>
+        <span class="eyebrow" style="margin-top:6px">Pro tips by role family</span>
+        <ul style="margin:0;padding-left:18px;font-size:.9rem;display:grid;gap:5px"><li><b>Sales &amp; Lead Gen:</b> bring numbers: target, achievement %, meetings booked.</li><li><b>HR, TA &amp; L&amp;D:</b> describe one process you improved and what changed.</li><li><b>IT &amp; Data:</b> describe one problem you solved end to end, with the result.</li></ul></div>
+      <div class="panel faq"><span class="eyebrow">Frequently asked</span>
+        <details><summary>Can I apply for more than one role?</summary><p>Yes. Save the roles you like and apply to all of them with one profile. Each role is reviewed separately.</p></details>
+        <details><summary>How long until I hear back?</summary><p>A recruiter reviews new applications within 3 working days. Your stage updates in My applications.</p></details>
+        <details><summary>Will you email me about other jobs?</summary><p>Only if you opt in or create a job alert. Applying alone never signs you up. Every email has an unsubscribe link.</p></details>
+        <details><summary>How long do you keep my data?</summary><p>As long as needed to process your application, and for a fixed retention period afterwards if you opt in to future roles. You can ask us to delete your profile at any time.</p></details>
+        <details><summary>Someone asked me to pay for a job. Is it genuine?</summary><p>No. We never charge candidates. Do not pay, and report it to the recruitment team.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" style="padding-top:0">
+    <div class="sec-head"><div><span class="eyebrow">Stay in touch</span><h2 style="margin-top:6px">Your next move might not be open yet.</h2></div></div>
+    <div class="connect">
+      <button type="button" class="area" data-alert><span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4l2-2ZM10 21h4"/></svg></span><b>Get job alerts</b><p>Save a search and we'll email you the moment a matching role opens.</p><span class="go">Create an alert →</span></button>
+      <button type="button" class="area" data-scroll="community"><span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0M16 4a3 3 0 0 1 0 6M21 20a6 6 0 0 0-4-5.6"/></svg></span><b>Join the talent community</b><p>Tell us your interests once. We'll reach out when the right role comes up.</p><span class="go">Join now →</span></button>
+    </div>
+  </section>
+</div>
+

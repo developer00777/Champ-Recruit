@@ -1,0 +1,73 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "talent-hub",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Static files for the careers portal and the recruiter console.
+  "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": ["/api/*", "/console*", "/oauth/*"] },
+
+  "vars": {
+    "ENVIRONMENT": "dev",
+    "APP_URL": "http://localhost:8787",
+    // UPSTASH_REDIS_REST_URL and MOCK_CHANNELS_URL come from .dev.vars locally (docker/overrides.env in compose).
+    "AI_MODEL": "claude-opus-5-5",
+    // Leave empty locally: console auth falls back to DEV_AUTH_EMAIL.
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": ""
+  },
+
+  "d1_databases": [
+    { "binding": "DB", "database_name": "talent-hub-dev", "database_id": "00000000-0000-0000-0000-000000000000", "migrations_dir": "migrations" }
+  ],
+  "r2_buckets": [{ "binding": "FILES", "bucket_name": "talent-hub-files-dev" }],
+  "queues": {
+    "producers": [{ "binding": "PUBLISH_QUEUE", "queue": "talent-hub-publish-dev" }],
+    "consumers": [
+      { "queue": "talent-hub-publish-dev", "max_batch_size": 10, "max_retries": 5, "dead_letter_queue": "talent-hub-publish-dlq-dev" }
+    ]
+  },
+  "triggers": { "crons": ["* * * * *", "5 * * * *", "30 20 * * *"] },
+  "observability": { "enabled": true },
+
+  // Fill the real ids after `wrangler d1 create` / `wrangler r2 bucket create` / `wrangler queues create`.
+  "env": {
+    "staging": {
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "APP_URL": "https://talent-hub-staging.example.workers.dev",
+        "UPSTASH_REDIS_REST_URL": "https://REPLACE.upstash.io",
+        "MOCK_CHANNELS_URL": "",
+        "AI_MODEL": "claude-opus-5-5",
+        "ACCESS_TEAM_DOMAIN": "REPLACE.cloudflareaccess.com",
+        "ACCESS_AUD": "REPLACE"
+      },
+      "d1_databases": [{ "binding": "DB", "database_name": "talent-hub-staging", "database_id": "REPLACE", "migrations_dir": "migrations" }],
+      "r2_buckets": [{ "binding": "FILES", "bucket_name": "talent-hub-files-staging" }],
+      "queues": {
+        "producers": [{ "binding": "PUBLISH_QUEUE", "queue": "talent-hub-publish-staging" }],
+        "consumers": [{ "queue": "talent-hub-publish-staging", "max_batch_size": 10, "max_retries": 5, "dead_letter_queue": "talent-hub-publish-dlq-staging" }]
+      },
+      "triggers": { "crons": ["* * * * *", "5 * * * *", "30 20 * * *"] }
+    },
+    "production": {
+      "vars": {
+        "ENVIRONMENT": "production",
+        "APP_URL": "https://careers.championsgroup.com",
+        "UPSTASH_REDIS_REST_URL": "https://REPLACE.upstash.io",
+        "MOCK_CHANNELS_URL": "",
+        "AI_MODEL": "claude-opus-5-5",
+        "ACCESS_TEAM_DOMAIN": "REPLACE.cloudflareaccess.com",
+        "ACCESS_AUD": "REPLACE"
+      },
+      "d1_databases": [{ "binding": "DB", "database_name": "talent-hub-prod", "database_id": "REPLACE", "migrations_dir": "migrations" }],
+      "r2_buckets": [{ "binding": "FILES", "bucket_name": "talent-hub-files-prod" }],
+      "queues": {
+        "producers": [{ "binding": "PUBLISH_QUEUE", "queue": "talent-hub-publish-prod" }],
+        "consumers": [{ "queue": "talent-hub-publish-prod", "max_batch_size": 10, "max_retries": 5, "dead_letter_queue": "talent-hub-publish-dlq-prod" }]
+      },
+      "triggers": { "crons": ["* * * * *", "5 * * * *", "30 20 * * *"] }
+    }
+  }
+}

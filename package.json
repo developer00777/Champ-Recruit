@@ -1,0 +1,36 @@
+{
+  "name": "champions-talent-hub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.6.5",
+  "scripts": {
+    "dev": "wrangler dev --ip 0.0.0.0 --port 8787 --persist-to .wrangler/state",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "wrangler d1 migrations apply DB --local --persist-to .wrangler/state",
+    "db:seed": "wrangler d1 execute DB --local --persist-to .wrangler/state --file=./seed/seed.sql",
+    "db:setup": "pnpm db:migrate && pnpm db:seed",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "deploy:staging": "wrangler d1 migrations apply DB --remote --env staging && wrangler deploy --env staging",
+    "deploy:production": "wrangler d1 migrations apply DB --remote --env production && wrangler deploy --env production",
+    "test:e2e": "playwright test",
+    "seed:generate": "node seed/generate.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
+    "@upstash/redis": "^1.41.0",
+    "drizzle-orm": "^0.45.4",
+    "hono": "^4.13.17",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "^1.6.0",
+    "@cloudflare/workers-types": "^5.20261109.1",
+    "@playwright/test": "^1.65.0",
+    "drizzle-kit": "^0.31.11",
+    "typescript": "^5.9.0",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0"
+  }
+}
